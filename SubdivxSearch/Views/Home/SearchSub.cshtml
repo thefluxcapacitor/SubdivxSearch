@@ -1,38 +1,64 @@
 ﻿@using SubdivxSearch.Domain
-@model System.Collections.Generic.IList<SubdivxSearch.Domain.Sub>
+@model SubdivxSearch.Controllers.SubSearchResultsModel
 
 @{
-    ViewBag.Title = "Search results";
+    ViewBag.Title = "Resultados de la búsqueda";
 }
 
 <h2>@ViewBag.Title</h2>
 
-@if (!Model.Any())
+<h3>Título / año / ripeado por</h3>
+<p>@Model.Title / @Model.Year / @Model.ReleaseGroup</p>
+
+@if (!Model.Subs.Any())
 {
-    <h3>No subs found</h3>
+    <h3>No se encontraron subtítulos</h3>
 }
 else
 {
-    <ul>
-        @foreach (var sub in Model)
+    <ul class="subs-list">
+        @foreach (var sub in Model.Subs)
         {
             <li>
                 <div>
-                    <h3>@sub.Title</h3>
-                    <div>@sub.Description</div>
-                    <div><span>Downloads:</span><span>@sub.Downloads</span></div>
-                    <div>
-                        <span>Comentarios:</span>
-                        <span>
+                    <h3><a href="@sub.SubUrl">@sub.Title</a></h3>
+                    <div class="sub-description">@sub.Description</div>
+                    <div class="sub-comments">
+                        <span><b>Comentarios:</b></span>
+                        <div>
                             @foreach (var comment in SubDivXManager.ParseComments(sub.Comments))
                             {
                                 <p>@comment</p>
                             }
-                        </span>
+                        </div>
                     </div>
-
+                    <div class="sub-extrainfo">
+                        <ul>
+                            <li><span><b>Descargas:</b></span><span>@sub.Downloads</span></li>
+                            <li><span><b>Cds:</b></span><span>@sub.Cds</span></li>
+                        </ul>
+                    </div>
+                    <div style="margin-bottom: 20px; margin-top: 20px;">
+                        <a class="button-style" href="@sub.SubUrl">Descargar subtítulo</a>
+                    </div>
+                    @*<button class="download-button" data-download-url="@sub.DownloadUrl">Descargar subtítulo</button>*@
                 </div>
             </li>
         }
     </ul>
 }
+
+@*@section scripts {
+    <script type="text/javascript">
+        var downloadUrlTemplate = '@Url.Action("DownloadSub", new { url = "_URL_" })';
+
+        $('.download-button').click(function () {
+            var subdivxDownloadUrl = $(this).attr('data-download-url');
+            var downloadUrl = downloadUrlTemplate.replace('_URL_', escape(subdivxDownloadUrl));
+
+            $.ajax({
+                url: downloadUrl
+            });
+        });
+    </script>
+}*@

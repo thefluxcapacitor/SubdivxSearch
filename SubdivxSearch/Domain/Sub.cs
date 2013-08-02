@@ -27,6 +27,10 @@
 
         public string SubUrl { get; set; }
 
+        public Sub()
+        {
+        }
+
         public Sub(HtmlNode html, string subComments)
         {
             if (Sub.PreferredSubsTeams.Count == 0)

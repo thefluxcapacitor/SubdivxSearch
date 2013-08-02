@@ -21,16 +21,20 @@
 
         public static IList<string> ParseComments(string comments)
         {
+
             if (string.IsNullOrEmpty(comments))
             {
                 return new List<string>();
             }
 
-            var splitted = comments.Split(new string[] { "<div id=\"pop_upcoment\">" }, StringSplitOptions.RemoveEmptyEntries).ToList();
-            splitted.RemoveAt(0);
+            const string StartOfCommentDelimiter = "<div id=\"pop_upcoment\">";
+            const string EndOfCommentDelimiter = "<div id=\"pop_upcoment_der\">";
+
+            var splitted = comments.Split(new string[] { StartOfCommentDelimiter }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            splitted.RemoveAll(item => item.IndexOf(EndOfCommentDelimiter, StringComparison.OrdinalIgnoreCase) <= 0);
 
             return splitted.Select(item => item.Substring(0,
-                    item.IndexOf("<div id=\"pop_upcoment_der\">", StringComparison.OrdinalIgnoreCase)))
+                    item.IndexOf(EndOfCommentDelimiter, StringComparison.OrdinalIgnoreCase)))
                 .ToList();
         }
 
@@ -155,19 +159,13 @@
                 page);
         }
 
-        public void DownloadSub(string path, string downloadUrl)
+        public byte[] DownloadSub(string downloadUrl)
         {
             var subdivxClient = new CookieAwareWebClient(this.loginCookies);
             subdivxClient.Headers["User-Agent"] = "Mozilla/5.0 (Windows; U; MSIE 9.0; WIndows NT 9.0; en-US))";
 
-            var directory = Path.GetDirectoryName(path);
-
-            if (!Directory.Exists(directory))
-            {
-                Directory.CreateDirectory(directory);
-            }
-
-            subdivxClient.DownloadFile(downloadUrl, path);
+            var bytes = subdivxClient.DownloadData(downloadUrl);
+            return bytes;
         }
     }
 }

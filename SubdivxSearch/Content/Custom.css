@@ -1,0 +1,84 @@
+﻿.subs-list {
+    padding: 0;
+}
+
+.subs-list > li {
+    list-style-type: none;
+    padding: 10px;
+}
+
+.subs-list > li:nth-of-type(even) {
+    background-color: white;
+}
+
+.subs-list h3 a {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+}
+
+.subs-list h3 {
+    margin: 0;
+}
+
+.subs-list a:hover {
+    background-color: transparent;
+    text-decoration: underline;
+}
+
+.subs-list p {
+    margin: 0;
+    padding: 0;
+}
+
+.subs-list > li > div > div {
+    margin-top: 7px;
+    margin-bottom: 7px;
+}
+
+.sub-description {
+}
+
+.sub-extrainfo ul > li > span:nth-child(1) {
+    margin-right: 5px;
+}
+
+.sub-extrainfo ul {
+    list-style-type: none;
+    font-size: .9em;
+    margin-top: 7px;
+    margin-bottom: 7px;
+    margin-left: 0;
+    padding: 0;
+}
+
+.sub-extrainfo ul li {
+    display: inline;
+    margin-right: 10px;
+}
+
+#searchTerm {
+    width: 70%;
+}
+
+.button-style {
+    background-color: #d3dce0;
+    border: 1px solid #787878;
+    cursor: pointer;
+    font-size: 1.2em;
+    font-weight: 600;
+    padding: 7px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    width: auto;
+    text-decoration: none;
+}
+
+a.button-style:hover {
+    text-decoration: none;
+    background-color: #d3dce0;
+}
+
+p {
+    margin: 0;
+}
