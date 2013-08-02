@@ -1,0 +1,38 @@
+﻿@using SubdivxSearch.Domain
+@model System.Collections.Generic.IList<SubdivxSearch.Domain.Sub>
+
+@{
+    ViewBag.Title = "Search results";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@if (!Model.Any())
+{
+    <h3>No subs found</h3>
+}
+else
+{
+    <ul>
+        @foreach (var sub in Model)
+        {
+            <li>
+                <div>
+                    <h3>@sub.Title</h3>
+                    <div>@sub.Description</div>
+                    <div><span>Downloads:</span><span>@sub.Downloads</span></div>
+                    <div>
+                        <span>Comentarios:</span>
+                        <span>
+                            @foreach (var comment in SubDivXManager.ParseComments(sub.Comments))
+                            {
+                                <p>@comment</p>
+                            }
+                        </span>
+                    </div>
+
+                </div>
+            </li>
+        }
+    </ul>
+}
