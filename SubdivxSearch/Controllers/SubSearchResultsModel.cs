@@ -12,6 +12,8 @@
 
         public string ReleaseGroup { get; set; }
 
+        public string SearchTerm { get; set; }
+
         public IList<Sub> Subs { get; set; }
     }
 }

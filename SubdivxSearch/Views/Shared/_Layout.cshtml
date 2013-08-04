@@ -14,15 +14,16 @@
                 <div class="float-left">
                     <p class="site-title">@Html.ActionLink("X-SubDivX", "Index", "Home")</p>
                 </div>
-@*                <div class="float-right">
-                    <nav>
+                <div class="float-right">
+                    @RenderSection("searchBox", required: false)
+@*                    <nav>
                         <ul id="menu">
                             <li>@Html.ActionLink("Home", "Index", "Home")</li>
                             <li>@Html.ActionLink("About", "About", "Home")</li>
                             <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                         </ul>
-                    </nav>
-                </div>*@
+                    </nav>*@
+                </div>
             </div>
         </header>
         <div id="body">

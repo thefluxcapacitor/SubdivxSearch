@@ -25,18 +25,22 @@
         {
         }
 
-        public Video(string torrentName)
+        public Video(string torrentName) : this(torrentName, new string[]{ })
         {
-            this.knownShows = ConfigurationManager.AppSettings["knownTvShows"].Split(new char[] { ',' });
+        }
+
+        public Video(string torrentName, string[] knownTvShows)
+        {
+            this.knownShows = knownTvShows;
 
             if (this.ParseTvShow(torrentName))
             {
                 this.ParseSeasonEpisode(torrentName);
             }
 
-            this.ParseReleaseGroup(torrentName);
+            var endingPosition = this.ParseYearAndTitle(torrentName);
 
-            this.ParseYearAndTitle(torrentName);
+            this.ParseReleaseGroup(torrentName, endingPosition);
         }
 
         private void ParseSeasonEpisode(string torrentName)
@@ -95,8 +99,10 @@
             return this.TvShow.Value;
         }
 
-        private void ParseYearAndTitle(string torrentName)
+        private int ParseYearAndTitle(string torrentName)
         {
+            var endingPosition = -1;
+
             var consecutiveDigits = 0;
             var lastCharIsDigit = false;
 
@@ -124,10 +130,12 @@
 
                         if (string.IsNullOrEmpty(this.Title))
                         {
-                            this.Title = torrentName.Substring(0, i - 5).Replace('.', ' ');
+                            this.Title = torrentName.Substring(0, i - 5).Replace('.', ' ').Trim();
                         }
 
-                        consecutiveDigits = 0;
+                        endingPosition = i;
+
+                        break;
                     }
                 }
             }
@@ -140,30 +148,34 @@
                 {
                     this.Title = torrentName.Substring(0, torrentName.Length - 5).Replace('.', ' ');
                 }
+
+                endingPosition = torrentName.Length;
             }
 
             Debug.WriteLine("Title: {0}", this.Title);
             Debug.WriteLine("Year: {0}", this.Year);
+
+            return endingPosition;
         }
 
-        private void ParseReleaseGroup(string torrentName)
+        private void ParseReleaseGroup(string torrentName, int startingPosition)
         {
-            if (torrentName.Contains("-"))
-            {
-                var releaseGroup = string.Empty;
+            var releaseGroup = string.Empty;
 
-                for (var j = torrentName.Length - 1; j >= 0; j--)
+            if (torrentName.Length > startingPosition)
+            {
+                for (var j = torrentName.Length - 1; j >= startingPosition; j--)
                 {
-                    if (torrentName[j] == '-')
+                    if (!char.IsLetterOrDigit(torrentName[j]))
                     {
                         break;
                     }
 
                     releaseGroup = torrentName[j] + releaseGroup;
                 }
-
-                this.ReleaseGroup = releaseGroup;
             }
+
+            this.ReleaseGroup = releaseGroup.Trim();
 
             Debug.WriteLine("ReleaseGroup: {0}", this.ReleaseGroup);
         }

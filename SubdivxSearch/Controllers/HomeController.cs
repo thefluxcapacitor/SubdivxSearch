@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-
-namespace SubdivxSearch.Controllers
+﻿namespace SubdivxSearch.Controllers
 {
+    using System.Collections.Generic;
+    using System.Configuration;
     using System.Globalization;
+    using System.Linq;
+    using System.Web.Mvc;
 
     using SubdivxSearch.Domain;
 
@@ -14,7 +12,7 @@ namespace SubdivxSearch.Controllers
     {
         public ActionResult SearchSub(string searchTerm)
         {
-            var video = new Video(searchTerm);
+            var video = new Video(searchTerm, ConfigurationManager.AppSettings["knownTvShows"].Split(new char[] { ',' }));
 
             var dummyCache = new Dictionary<string, string>();
 
@@ -89,6 +87,7 @@ namespace SubdivxSearch.Controllers
             model.Title = video.Title;
             model.Year = video.Year != 0 ? video.Year.ToString(CultureInfo.InvariantCulture) : string.Empty;
             model.ReleaseGroup = video.ReleaseGroup;
+            model.SearchTerm = searchTerm;
 
             return this.View(model);
         }
