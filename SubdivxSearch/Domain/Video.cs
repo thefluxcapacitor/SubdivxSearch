@@ -162,16 +162,19 @@
         {
             var releaseGroup = string.Empty;
 
-            if (torrentName.Length > startingPosition)
+            if (!string.IsNullOrEmpty(torrentName))
             {
-                for (var j = torrentName.Length - 1; j >= startingPosition; j--)
+                if (torrentName.Length > startingPosition)
                 {
-                    if (!char.IsLetterOrDigit(torrentName[j]))
+                    for (var j = torrentName.Length - 1; j >= startingPosition; j--)
                     {
-                        break;
-                    }
+                        if (!char.IsLetterOrDigit(torrentName[j]))
+                        {
+                            break;
+                        }
 
-                    releaseGroup = torrentName[j] + releaseGroup;
+                        releaseGroup = torrentName[j] + releaseGroup;
+                    }
                 }
             }
 
