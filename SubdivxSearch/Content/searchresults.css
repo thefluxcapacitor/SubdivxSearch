@@ -8,7 +8,7 @@
 }
 
 .subs-list > li:nth-of-type(even) {
-    background-color: white;
+    background-color: #f5f5f5;
 }
 
 .subs-list h3 a {
@@ -57,32 +57,48 @@
     margin-right: 10px;
 }
 
-#searchTerm {
-    width: 70%;
+.header-search-box {
+    float: right;
+    margin-top: 25px;
 }
 
-#searchTermSearchBox {
-    width: 450px;
+.header-search-box form {
+    display: table;
 }
 
-.button-style {
-    background-color: #d3dce0;
-    border: 1px solid #787878;
-    cursor: pointer;
-    font-size: 1.2em;
-    font-weight: 600;
-    padding: 7px;
-    margin-top: 8px;
-    margin-bottom: 8px;
-    width: auto;
-    text-decoration: none;
+.header-search-box input {
+    display: table-cell;
 }
 
-a.button-style:hover {
-    text-decoration: none;
-    background-color: #d3dce0;
+.header-search-box #searchTermSearchBox {
+    width: 400px;
 }
 
-p {
+.header-search-box #searchSubmitSearchBox {
+    margin-left: 3px;
+    width: 82px;
+}
+
+.header-site {
+    margin-top: 20px;
+}
+
+.header-site-title {
+    float: left;
+}
+
+.header-site-title.h1 {
     margin: 0;
+}
+
+.header-site-title img:first-child {
+    margin-top: -19px;
+}
+
+.header-site-title > a:hover {
+    text-decoration: none;
+}
+
+p.sub-text {
+    margin: 20px 0;    
 }

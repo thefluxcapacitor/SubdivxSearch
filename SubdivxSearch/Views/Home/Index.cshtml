@@ -1,25 +1,45 @@
 ﻿@{
     ViewBag.Title = "Búsqueda";
 }
-@section featured {
-    <section class="featured">
-        <div class="content-wrapper">
-            <hgroup class="title">
-@*                <h1>@ViewBag.Title.</h1>
-                <h2>@ViewBag.Message</h2>*@
-            </hgroup>
-            <p>
-                Búsqueda extendida (descripción y comentarios) de subtítulos en SubDivX<br/><br/>
-                Ejemplos:<br/>
-                Inception.2010.RERiP.DVDRiP.XviD-ARROW<br/>
-                Donnie.Darko.2001.LIMITED.DVDRip.DivX-ViTE
-            </p>
-        </div>
-    </section>
-}
 
-@using (Html.BeginForm("SearchSub", "Home", FormMethod.Get))
-{
-    <input id="searchTerm" name="searchTerm" type="text" />
-    <input type="submit" value="Buscar" />  
+<p style="text-align: center;"><img src="\Images\logo.png" alt="logo"/></p>
+<h1 class="site-title">SubSearch<img style="margin-top: -10px;" src="\Images\magnifier.png" alt="magnifier"/></h1>
+
+<div id="searchForm">
+    @using (Html.BeginForm("SearchSub", "Home", FormMethod.Get))
+    {
+        <input id="searchTerm" class="form-control search-control" name="searchTerm" type="text" />
+        <input id="searchSubmit" class="btn btn-warning" type="submit" value="Buscar" />  
+    }
+</div>
+
+<div style="text-align: center;">
+    <p class="sub-text">Búsqueda extendida sobre descripción y comentarios de subtítulos en <a href="http://subdivx.com/">Subdivx.com</a></p>
+    <a class="sub-text" href="">Cómo buscar?</a>
+        @*Ejemplos:<br/>
+        Inception.2010.RERiP.DVDRiP.XviD-ARROW<br/>
+        Donnie.Darko.2001.LIMITED.DVDRip.DivX-ViTE*@
+</div>
+
+
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $(window).resize(function () {
+
+                $('.container').css({
+                    position: 'absolute',
+                    left: ($(window).width() - $('.container').outerWidth()) / 2,
+                    top: ($(window).height() - $('.container').outerHeight()) / 2
+                });
+
+            });
+
+            // To initially run the function:
+            $(window).resize();
+
+        });
+    </script>
 }

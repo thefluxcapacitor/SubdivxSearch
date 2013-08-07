@@ -1,0 +1,16 @@
+﻿#searchTerm {
+    display: inline-block;
+    width: 89%;
+    min-width: 298px;
+}
+
+#searchSubmit {
+    width: 10%;
+    min-width: 80px;
+}
+
+#searchForm {
+    display: table;
+    margin: 0 auto;
+    width: 80%;
+}

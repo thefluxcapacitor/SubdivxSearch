@@ -24,8 +24,12 @@ namespace SubdivxSearch
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                "~/Content/Site.css", 
-                "~/Content/Custom.css"));
+                "~/Content/fonts/stylesheet.css",
+                "~/Content/fonts/font-awesome.css",
+                "~/Content/bootstrap.css", 
+                "~/Content/site.css",
+                "~/Content/home.css",
+                "~/Content/searchresults.css"));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
                         "~/Content/themes/base/jquery.ui.core.css",

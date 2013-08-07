@@ -5,10 +5,26 @@
     ViewBag.Title = "Resultados de la búsqueda";
 }
 
+<div class="header-site">
+<div class="header-search-box">
+    @using (Html.BeginForm("SearchSub", "Home", FormMethod.Get))
+    {
+        <input id="searchTermSearchBox" class="form-control search-control" name="searchTerm" type="text" />
+        <input id="searchSubmitSearchBox" class="btn btn-warning" type="submit" value="Buscar" />  
+    }
+</div>
+
+<div class="header-site-title">
+    <a href="@Url.Action("Index", "Home")"><h1 class="site-title"><img src="\Images\logo.png" />SubSearch<img style="margin-top: -10px;" src="\Images\magnifier.png"/></h1></a>
+</div>
+</div>
+
+<div style="clear: both;"></div>
+
 <h2>@ViewBag.Title</h2>
 
-<h3>Título / año / ripeado por</h3>
-<p>@Model.Title / @Model.Year / @Model.ReleaseGroup</p>
+@*<h3>Título / año / ripeado por</h3>
+<p>@Model.Title / @Model.Year / @Model.ReleaseGroup</p>*@
 
 @if (!Model.Subs.Any())
 {
@@ -20,42 +36,41 @@ else
         @foreach (var sub in Model.Subs)
         {
             <li>
-                <div>
-                    <h3><a href="@sub.SubUrl">@sub.Title</a></h3>
-                    <div class="sub-description">@sub.Description</div>
-                    <div class="sub-comments">
-                        <span><b>Comentarios:</b></span>
-                        <div>
-                            @foreach (var comment in SubDivXManager.ParseComments(sub.Comments))
-                            {
-                                <p>@comment</p>
-                            }
+                <div style="display: table;">
+                    <div style="display: table-cell; font-size: 30px; color:#ff7518; ">
+                        @*<img style="margin-right: 20px;" src="/Images/download.png"/>*@
+                        <span style="display: block; margin-right: 13px; top: 10px; position:relative;" class="icon-download-alt"></span>
+                        <span style="display: block; margin-right: 13px; top: 25px; position:relative;" class="icon-comments"></span>
+                    </div>
+                    <div style="display: table-cell;">
+                        <h3><a href="@sub.SubUrl">@sub.Title</a></h3>
+                        <div class="sub-description">@sub.Description</div>
+                        <div class="sub-comments">
+                            <span><b>Comentarios:</b></span>
+                            <div>
+                                @foreach (var comment in SubDivXManager.ParseComments(sub.Comments))
+                                {
+                                    <p>@comment</p>
+                                }
+                            </div>
                         </div>
+                        <div class="sub-extrainfo">
+                            <ul>
+                                <li><span><b>Descargas:</b></span><span>@sub.Downloads</span></li>
+                                <li><span><b>Cds:</b></span><span>@sub.Cds</span></li>
+                            </ul>
+                        </div>
+@*                        <div style="margin-bottom: 20px; margin-top: 20px;">
+                            <a class="button-style" href="@sub.SubUrl">Descargar subtítulo</a>
+                        </div>*@
+                        @*<button class="download-button" data-download-url="@sub.DownloadUrl">Descargar subtítulo</button>*@
                     </div>
-                    <div class="sub-extrainfo">
-                        <ul>
-                            <li><span><b>Descargas:</b></span><span>@sub.Downloads</span></li>
-                            <li><span><b>Cds:</b></span><span>@sub.Cds</span></li>
-                        </ul>
-                    </div>
-                    <div style="margin-bottom: 20px; margin-top: 20px;">
-                        <a class="button-style" href="@sub.SubUrl">Descargar subtítulo</a>
-                    </div>
-                    @*<button class="download-button" data-download-url="@sub.DownloadUrl">Descargar subtítulo</button>*@
                 </div>
             </li>
         }
     </ul>
 }
 
-@section searchBox
-{
-    @using (Html.BeginForm("SearchSub", "Home", FormMethod.Get))
-    {
-        <input id="searchTermSearchBox" name="searchTerm" type="text" />
-        <input type="submit" value="Buscar" />  
-    }
-}
 
 @section scripts {
     <script type="text/javascript">
