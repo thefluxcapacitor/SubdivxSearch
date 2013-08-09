@@ -2,46 +2,17 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>@ViewBag.Title - X-SubDivX</title>
+        <title>@ViewBag.Title - SubSearch</title>
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <meta name="viewport" content="width=device-width" />
         @Styles.Render("~/Content/css")
         @Scripts.Render("~/bundles/modernizr")
     </head>
     <body>
-@*        <header>
-            <div class="container">
-                <div class="float-left">
-                    <h1 class="site-title">@Html.ActionLink("X-SubDivX", "Index", "Home")</h1>
-                </div>
-                <div class="float-right">
-                    @RenderSection("searchBox", required: false)
-                    <nav>
-                        <ul id="menu">
-                            <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                            <li>@Html.ActionLink("About", "About", "Home")</li>
-                            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-        </header>*@
-<div class="container" style="width: 1000px;">
-        @RenderBody()
-</div>
-@*        <div id="body" class="container">
-            <section class="main-content clear-fix">
-                @RenderBody()
-            </section>
+        <div class="container">
+            @RenderBody()
         </div>
-        <footer>
-            <div class="container">
-                <div class="float-left">
-                    <p>&copy; @DateTime.Now.Year - JR</p>
-                </div>
-            </div>
-        </footer>
-*@
+
         @Scripts.Render("~/bundles/jquery")
         @RenderSection("scripts", required: false)
     </body>

@@ -2,8 +2,8 @@
     ViewBag.Title = "Búsqueda";
 }
 
-<p style="text-align: center;"><img src="\Images\logo.png" alt="logo"/></p>
-<h1 class="site-title">SubSearch<img style="margin-top: -10px;" src="\Images\magnifier.png" alt="magnifier"/></h1>
+<div id="logo-homepage"><img src="\Images\logo.png" alt="logo"/></div>
+<h1 class="site-title">SubSearch<img id="magnifier-homepage" src="\Images\magnifier.png" alt="magnifier"/></h1>
 
 <div id="searchForm">
     @using (Html.BeginForm("SearchSub", "Home", FormMethod.Get))
@@ -13,7 +13,7 @@
     }
 </div>
 
-<div style="text-align: center;">
+<div id="info-section-homepage">
     <p class="sub-text">Búsqueda extendida sobre descripción y comentarios de subtítulos en <a href="http://subdivx.com/">Subdivx.com</a></p>
     <a class="sub-text" href="">Cómo buscar?</a>
         @*Ejemplos:<br/>
@@ -39,7 +39,6 @@
 
             // To initially run the function:
             $(window).resize();
-
         });
     </script>
 }

@@ -14,3 +14,15 @@
     margin: 0 auto;
     width: 80%;
 }
+
+#logo-homepage {
+    text-align: center;
+}
+
+#magnifier-homepage {
+    margin-top: -10px;
+}
+
+#info-section-homepage {
+    text-align: center;
+}

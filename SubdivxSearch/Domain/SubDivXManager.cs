@@ -19,25 +19,6 @@
     {
         private CookieContainer loginCookies = new CookieContainer();
 
-        public static IList<string> ParseComments(string comments)
-        {
-
-            if (string.IsNullOrEmpty(comments))
-            {
-                return new List<string>();
-            }
-
-            const string StartOfCommentDelimiter = "<div id=\"pop_upcoment\">";
-            const string EndOfCommentDelimiter = "<div id=\"pop_upcoment_der\">";
-
-            var splitted = comments.Split(new string[] { StartOfCommentDelimiter }, StringSplitOptions.RemoveEmptyEntries).ToList();
-            splitted.RemoveAll(item => item.IndexOf(EndOfCommentDelimiter, StringComparison.OrdinalIgnoreCase) <= 0);
-
-            return splitted.Select(item => item.Substring(0,
-                    item.IndexOf(EndOfCommentDelimiter, StringComparison.OrdinalIgnoreCase)))
-                .ToList();
-        }
-
         public IList<Sub> GetCandidateSubs(Video video, bool searchInComments, Dictionary<string, string> cache)
         {
             Debug.WriteLine("Text used to seach subtitle is: {0}", video.GetSearchString());

@@ -4,26 +4,23 @@
 
 .subs-list > li {
     list-style-type: none;
-    padding: 10px;
+    padding: 10px 20px 10px 10px;
 }
 
 .subs-list > li:nth-of-type(even) {
     background-color: #f5f5f5;
 }
 
-.subs-list h3 a {
-    margin: 0;
-    padding: 0;
-    text-decoration: none;
+.subs-list > li:nth-of-type(even) button.btn-show-all-comments{
+    background-color: #f5f5f5;
+}
+
+.subs-list > li:nth-of-type(even) button.btn-show-all-comments:hover {
+    background-color: #fdfdfd;
 }
 
 .subs-list h3 {
-    margin: 0;
-}
-
-.subs-list a:hover {
-    background-color: transparent;
-    text-decoration: underline;
+    margin: 0 0 10px 0;
 }
 
 .subs-list p {
@@ -31,12 +28,80 @@
     padding: 0;
 }
 
-.subs-list > li > div > div {
+.sub-section-left-column {
     margin-top: 7px;
     margin-bottom: 7px;
+    display: table-cell; 
+    font-size: 30px; 
+    color:#ff7518;
+}
+
+.sub-section-right-column {
+    display: table-cell;
+    width: 100%;
+}
+
+.sub-section {
+    display: table;
+    padding-top: 5px;
 }
 
 .sub-description {
+}
+
+.sub-comments {
+    margin-top: 10px;
+}
+
+.sub-comments-title {
+    margin-bottom: 5px;
+}
+
+.sub-comments p span.single-comment-text {
+    margin: 0 5px 0 5px;
+    font-size: 13px;
+}
+
+.sub-comments p:nth-child(even) {
+    text-align: right;
+}
+
+.hidden-comment {
+    display: none;    
+}
+
+.sub-show-all-separator {
+    text-align: center;
+    height: 12px;    
+}
+
+.btn-show-all-comments {
+    position: relative; 
+    width: 117px; 
+    top: -35px;
+    font-size: 12px;
+    font-weight: bold;
+    padding-left: 15px;
+    padding-right: 15px;
+    border: solid 1px transparent;
+    background-color: #fdfdfd;
+}
+
+.btn-show-all-comments:hover {
+    background-color: #f0f0f0;
+    border: solid 1px #c6c6c6;
+}
+
+.right-arrow, .left-arrow {
+    font-size: 10px;    
+}
+
+.sub-comments p:nth-child(odd) span.right-arrow {
+    display: none;
+}
+
+.sub-comments p:nth-child(even) span.left-arrow {
+    display: none;
 }
 
 .sub-extrainfo ul > li > span:nth-child(1) {
@@ -56,6 +121,19 @@
     display: inline;
     margin-right: 10px;
 }
+
+.sub-download-button {
+    display: block; 
+    margin-right: 13px; 
+    top: 10px; 
+    position:relative;
+    color: #ff7518;
+}
+
+    a.sub-download-button:hover {
+        text-decoration: none;
+        color: #ff7518;
+    }
 
 .header-search-box {
     float: right;
@@ -101,4 +179,8 @@
 
 p.sub-text {
     margin: 20px 0;    
+}
+
+#magnifier-search-page {
+    margin-top: -10px;
 }

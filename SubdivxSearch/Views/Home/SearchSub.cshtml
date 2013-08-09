@@ -1,5 +1,6 @@
 ﻿@using SubdivxSearch.Domain
-@model SubdivxSearch.Controllers.SubSearchResultsModel
+@using SubdivxSearch.Extensions
+@model SubdivxSearch.Models.SubSearchResultsModel
 
 @{
     ViewBag.Title = "Resultados de la búsqueda";
@@ -15,13 +16,17 @@
 </div>
 
 <div class="header-site-title">
-    <a href="@Url.Action("Index", "Home")"><h1 class="site-title"><img src="\Images\logo.png" />SubSearch<img style="margin-top: -10px;" src="\Images\magnifier.png"/></h1></a>
+    <a href="@Url.Action("Index", "Home")">
+        <h1 class="site-title">
+            <img src="\Images\logo.png" />SubSearch<img id="magnifier-search-page" src="\Images\magnifier.png"/>
+        </h1>
+    </a>
 </div>
 </div>
 
-<div style="clear: both;"></div>
+<div class="clearfloat"></div>
 
-<h2>@ViewBag.Title</h2>
+@*<h2>@ViewBag.Title</h2>*@
 
 @*<h3>Título / año / ripeado por</h3>
 <p>@Model.Title / @Model.Year / @Model.ReleaseGroup</p>*@
@@ -36,34 +41,51 @@ else
         @foreach (var sub in Model.Subs)
         {
             <li>
-                <div style="display: table;">
-                    <div style="display: table-cell; font-size: 30px; color:#ff7518; ">
-                        @*<img style="margin-right: 20px;" src="/Images/download.png"/>*@
-                        <span style="display: block; margin-right: 13px; top: 10px; position:relative;" class="icon-download-alt"></span>
-                        <span style="display: block; margin-right: 13px; top: 25px; position:relative;" class="icon-comments"></span>
+                <div class="sub-section">
+                    <div class="sub-section-left-column">
+                        <a class="icon-download-alt sub-download-button" href="@sub.SubUrl"></a>
                     </div>
-                    <div style="display: table-cell;">
-                        <h3><a href="@sub.SubUrl">@sub.Title</a></h3>
+                    <div class="sub-section-right-column">
+                        <h3><a class="seamless-link" href="@sub.SubUrl">@sub.Title</a></h3>
                         <div class="sub-description">@sub.Description</div>
-                        <div class="sub-comments">
-                            <span><b>Comentarios:</b></span>
+
+                        <div class="sub-comments" id="comments-sub-@sub.Id.ToString()">
+                        
+                        @if (sub.Comments != null && sub.Comments.Any())
+                        {
+                            <div class="sub-comments-title"><b>Comentarios:</b></div>
                             <div>
-                                @foreach (var comment in SubDivXManager.ParseComments(sub.Comments))
+                                @foreach (var comment in sub.Comments)
                                 {
-                                    <p>@comment</p>
+                                    var subClass = string.Empty;
+                                    if (!comment.ContainsIgnoreCase(Model.ReleaseGroup))
+                                    {
+                                        subClass = "hideable-comment hidden-comment";
+                                    }
+
+                                    <p class="@subClass">
+                                        <span class="left-arrow icon-chevron-right"></span><span class="single-comment-text">@comment</span><span class="right-arrow icon-chevron-left"></span>
+                                    </p>
                                 }
                             </div>
+                            <div class="sub-show-all-separator">
+                                <hr />
+                                <button class="should-show btn-show-all-comments" 
+                                        data-sub-id="@sub.Id.ToString()">ver todos</button>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="sub-comments-title"><b>No hay comentarios</b></div>
+                        }
                         </div>
+                          
                         <div class="sub-extrainfo">
                             <ul>
                                 <li><span><b>Descargas:</b></span><span>@sub.Downloads</span></li>
                                 <li><span><b>Cds:</b></span><span>@sub.Cds</span></li>
                             </ul>
                         </div>
-@*                        <div style="margin-bottom: 20px; margin-top: 20px;">
-                            <a class="button-style" href="@sub.SubUrl">Descargar subtítulo</a>
-                        </div>*@
-                        @*<button class="download-button" data-download-url="@sub.DownloadUrl">Descargar subtítulo</button>*@
                     </div>
                 </div>
             </li>
@@ -75,6 +97,24 @@ else
 @section scripts {
     <script type="text/javascript">
         $('#searchTermSearchBox').val('@Model.SearchTerm');
+
+        $('.btn-show-all-comments').click(function () {
+            var $btn = $(this);
+
+            var subId = $btn.attr('data-sub-id');
+            var $comments = $('#comments-sub-' + subId);
+
+            var showComments = $btn.hasClass('should-show');
+            if (showComments) {
+                $btn.text('ver relevantes');
+                $comments.find('.hideable-comment').show(200);
+            } else {
+                $btn.text('ver todos');
+                $comments.find('.hideable-comment').hide(200);
+            }
+
+            $btn.toggleClass('should-show');
+        });
         
 @*        var downloadUrlTemplate = '@Url.Action("DownloadSub", new { url = "_URL_" })';
 

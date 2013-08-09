@@ -13,7 +13,7 @@
 
         public string Description { get; set; }
 
-        public string Comments { get; set; }
+        public IList<string> Comments { get; set; }
 
         public string DownloadUrl { get; set; }
 
@@ -27,11 +27,14 @@
 
         public string SubUrl { get; set; }
 
+        public Guid Id { get; set; }
+
         public Sub()
         {
+            this.Id = Guid.NewGuid();
         }
 
-        public Sub(HtmlNode html, string subComments)
+        public Sub(HtmlNode html, string subComments) : this()
         {
             if (Sub.PreferredSubsTeams.Count == 0)
             {
@@ -60,9 +63,28 @@
             this.Cds = int.Parse(this.ExtractBetween(html.InnerHtml, "<b>Cds:</b>", "<b>Comentarios:</b>"));
             this.Downloads = int.Parse(this.ExtractBetween(html.InnerHtml, "<b>Downloads:</b>", "<b>Cds:</b>").Replace(",", string.Empty));
 
-            this.Comments = subComments;
+            this.Comments = ParseComments(subComments);
 
             this.SetSubsTeam();
+        }
+
+        public static IList<string> ParseComments(string comments)
+        {
+
+            if (string.IsNullOrEmpty(comments))
+            {
+                return new List<string>();
+            }
+
+            const string StartOfCommentDelimiter = "<div id=\"pop_upcoment\">";
+            const string EndOfCommentDelimiter = "<div id=\"pop_upcoment_der\">";
+
+            var splitted = comments.Split(new string[] { StartOfCommentDelimiter }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            splitted.RemoveAll(item => item.IndexOf(EndOfCommentDelimiter, StringComparison.OrdinalIgnoreCase) <= 0);
+
+            return splitted.Select(item => item.Substring(0,
+                    item.IndexOf(EndOfCommentDelimiter, StringComparison.OrdinalIgnoreCase)))
+                .ToList();
         }
 
         private string ExtractBetween(string text, string leftDelimiter, string rightDelimiter)
@@ -91,7 +113,17 @@
 
         public bool Matches(Video video)
         {
-            return this.Matches(video, this.Description) || this.Matches(video, this.Comments);
+            return this.Matches(video, this.Description) || this.Matches(video, this.GetCommentsCsv());
+        }
+
+        private string GetCommentsCsv()
+        {
+            if (this.Comments.Any())
+            {
+                return this.Comments.Aggregate((c, n) => c + "," + n);
+            }
+
+            return string.Empty;
         }
 
         private bool Matches(Video video, string content)

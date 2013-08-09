@@ -1,4 +1,4 @@
-﻿namespace SubdivxSearch.Controllers
+﻿namespace SubdivxSearch.Models
 {
     using System.Collections.Generic;
 
