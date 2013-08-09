@@ -151,6 +151,11 @@
 
                 endingPosition = torrentName.Length;
             }
+            else if (this.Year == 0 && consecutiveDigits != 4)
+            {
+                this.Title = torrentName;
+                endingPosition = torrentName.Length;
+            }
 
             Debug.WriteLine("Title: {0}", this.Title);
             Debug.WriteLine("Year: {0}", this.Year);
@@ -162,7 +167,7 @@
         {
             var releaseGroup = string.Empty;
 
-            if (!string.IsNullOrEmpty(torrentName))
+            if (!string.IsNullOrEmpty(torrentName) && startingPosition > 0)
             {
                 if (torrentName.Length > startingPosition)
                 {
@@ -191,7 +196,7 @@
             }
             else
             {
-                return string.Format("{0} {1}", this.Title, this.Year);
+                return string.Format("{0} {1}", this.Title, this.Year > 0 ? this.Year.ToString() : string.Empty);
             }
         }
     }

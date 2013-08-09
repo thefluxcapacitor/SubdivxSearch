@@ -50,7 +50,11 @@ else
                         <div class="sub-description">@sub.Description</div>
 
                         <div class="sub-comments" id="comments-sub-@sub.Id.ToString()">
-                        
+      
+                        @{
+                            var visibleCommentCount = 0;
+                        }                  
+
                         @if (sub.Comments != null && sub.Comments.Any())
                         {
                             <div class="sub-comments-title"><b>Comentarios:</b></div>
@@ -62,17 +66,25 @@ else
                                     {
                                         subClass = "hideable-comment hidden-comment";
                                     }
+                                    else
+                                    {
+                                        visibleCommentCount++;
+                                    }
 
                                     <p class="@subClass">
                                         <span class="left-arrow icon-chevron-right"></span><span class="single-comment-text">@comment</span><span class="right-arrow icon-chevron-left"></span>
                                     </p>
                                 }
                             </div>
-                            <div class="sub-show-all-separator">
-                                <hr />
-                                <button class="should-show btn-show-all-comments" 
-                                        data-sub-id="@sub.Id.ToString()">ver todos</button>
-                            </div>
+                            
+                            if (visibleCommentCount < sub.Comments.Count())
+                            {
+                                <div class="sub-show-all-separator">
+                                    <hr />
+                                    <button class="should-show btn-show-all-comments" 
+                                            data-sub-id="@sub.Id.ToString()">ver todos</button>
+                                </div>
+                            }
                         }
                         else
                         {
