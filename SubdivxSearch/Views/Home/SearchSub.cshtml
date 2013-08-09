@@ -49,11 +49,7 @@ else
                         <h3><a class="seamless-link" href="@sub.SubUrl">@sub.Title</a></h3>
                         <div class="sub-description">@sub.Description</div>
 
-                        <div class="sub-comments" id="comments-sub-@sub.Id.ToString()">
-      
-                        @{
-                            var visibleCommentCount = 0;
-                        }                  
+                        <div class="sub-comments" id="comments-sub-@sub.Id.ToString()">            
 
                         @if (sub.Comments != null && sub.Comments.Any())
                         {
@@ -62,13 +58,9 @@ else
                                 @foreach (var comment in sub.Comments)
                                 {
                                     var subClass = string.Empty;
-                                    if (!comment.ContainsIgnoreCase(Model.ReleaseGroup))
+                                    if (!comment.ContainsIgnoreCase(Model.ReleaseGroup) || string.IsNullOrEmpty(Model.ReleaseGroup))
                                     {
                                         subClass = "hideable-comment hidden-comment";
-                                    }
-                                    else
-                                    {
-                                        visibleCommentCount++;
                                     }
 
                                     <p class="@subClass">
@@ -77,14 +69,11 @@ else
                                 }
                             </div>
                             
-                            if (visibleCommentCount < sub.Comments.Count())
-                            {
-                                <div class="sub-show-all-separator">
-                                    <hr />
-                                    <button class="should-show btn-show-all-comments" 
-                                            data-sub-id="@sub.Id.ToString()">ver todos</button>
-                                </div>
-                            }
+                            <div class="sub-show-all-separator">
+                                <hr />
+                                <button class="should-show btn-show-all-comments" 
+                                        data-sub-id="@sub.Id.ToString()">ver todos</button>
+                            </div>
                         }
                         else
                         {
