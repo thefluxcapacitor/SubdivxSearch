@@ -125,7 +125,7 @@
 .sub-download-button {
     display: block; 
     margin-right: 13px; 
-    top: 10px; 
+    top: 4px; 
     position:relative;
     color: #ff7518;
 }
@@ -170,7 +170,7 @@
 }
 
 .header-site-title img:first-child {
-    margin-top: -19px;
+    margin-top: -29px;
 }
 
 .header-site-title > a:hover {

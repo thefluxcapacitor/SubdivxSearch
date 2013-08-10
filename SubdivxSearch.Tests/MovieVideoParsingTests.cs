@@ -5,7 +5,7 @@
     using SubdivxSearch.Domain;
 
     [TestClass]
-    public class VideoTests
+    public class MovieVideoParsingTests
     {
         [TestMethod]
         public void TestVideoParseCase1()
