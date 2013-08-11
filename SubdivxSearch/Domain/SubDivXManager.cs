@@ -32,7 +32,7 @@
 
             var page = 1;
 
-            while (page > 0)
+            while (page > 0 && page < 5) // TODO: remove page < 5
             {
                 var url = this.GetUrl(video.GetSearchString(), page);
 

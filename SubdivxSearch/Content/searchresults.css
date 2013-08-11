@@ -206,7 +206,7 @@ p.sub-text {
 
 .card-handle {
     display: table-cell;
-    background-color: #007fff;
+    background-color: black;
     width: 10px;
     cursor: pointer;
 }
