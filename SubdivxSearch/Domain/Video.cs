@@ -25,6 +25,8 @@
 
         public Video(string torrentName)
         {
+            torrentName = torrentName.Trim();
+
             if (string.IsNullOrEmpty(torrentName))
             {
                 return;

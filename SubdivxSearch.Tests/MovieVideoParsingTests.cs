@@ -151,5 +151,23 @@
             Assert.AreEqual(2013, video.Year);
             Assert.AreEqual("LEGI0N", video.ReleaseGroup);
         }
+
+        [TestMethod]
+        public void TestVideoParseStartingWithSpace()
+        {
+            var video = new Video(" Oblivion.2013.1080p BrRip x264-LEGI0N");
+            Assert.AreEqual("Oblivion", video.Title);
+            Assert.AreEqual(2013, video.Year);
+            Assert.AreEqual("LEGI0N", video.ReleaseGroup);
+        }
+
+        [TestMethod]
+        public void TestVideoParseEndingWithSpace()
+        {
+            var video = new Video("Oblivion.2013.1080p BrRip x264-LEGI0N ");
+            Assert.AreEqual("Oblivion", video.Title);
+            Assert.AreEqual(2013, video.Year);
+            Assert.AreEqual("LEGI0N", video.ReleaseGroup);
+        }
     }
 }
