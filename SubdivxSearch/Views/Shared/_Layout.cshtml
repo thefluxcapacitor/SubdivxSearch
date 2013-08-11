@@ -27,6 +27,8 @@
         <div class="container">
             @RenderBody()
         </div>
+        
+        @RenderSection("footer", required: false)
 
         @Scripts.Render("~/bundles/jquery")
         @RenderSection("scripts", required: false)

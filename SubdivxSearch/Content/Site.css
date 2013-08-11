@@ -42,4 +42,5 @@ a.seamless-link:hover {
 
 body > div.container {
     width: 900px;
+    padding-bottom: 50px;
 }

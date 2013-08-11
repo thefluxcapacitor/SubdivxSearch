@@ -26,3 +26,15 @@
 #info-section-homepage {
     text-align: center;
 }
+
+#footer {
+    position: fixed;
+    height: 30px;
+    bottom: 0;
+    width: 100%;
+    border-top: solid 1px #e5e5e5;
+    background-color: #fdfdfd;
+    text-align: right;
+    padding-right: 10px;
+    padding-top: 2px;
+}
