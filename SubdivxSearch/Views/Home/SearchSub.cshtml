@@ -1,5 +1,5 @@
-﻿@using SubdivxSearch.Domain
-@using SubdivxSearch.Extensions
+﻿@using SubdivxSearch.Extensions
+@using SubdivxSearch.Helpers
 @model SubdivxSearch.Models.SubSearchResultsModel
 
 @{
@@ -26,14 +26,40 @@
 
 <div class="clearfloat"></div>
 
-@*<h2>@ViewBag.Title</h2>*@
-
-@*<h3>Título / año / ripeado por</h3>
-<p>@Model.Title / @Model.Year / @Model.ReleaseGroup</p>*@
+<div class="card">
+    <div class="card-handle">
+        <div class="card-handle-icon icon-chevron-right icon-chevron-left"></div>
+    </div>
+    
+    <div class="card-contents">
+        @if (Model.IsTvShow)
+        {
+            <div class="card-item-label">Título</div>
+            <div class="card-item-value">@StringHelper.GetDefault(Model.Title)</div>
+        
+            <div class="card-item-label">Temp. / Episodio</div> 
+            <div class="card-item-value">@StringHelper.GetDefault(Model.Season) / @StringHelper.GetDefault(Model.Episode)</div>
+                
+            <div class="card-item-label">Ripeado por</div>
+            <div class="card-item-value">@StringHelper.GetDefault(Model.ReleaseGroup)</div>
+        }
+        else
+        {
+            <div class="card-item-label">Título</div>
+            <div class="card-item-value">@StringHelper.GetDefault(Model.Title)</div>
+        
+            <div class="card-item-label">Año</div> 
+            <div class="card-item-value">@StringHelper.GetDefault(Model.Year)</div>
+        
+            <div class="card-item-label">Ripeado por</div>
+            <div class="card-item-value">@StringHelper.GetDefault(Model.ReleaseGroup)</div>
+        }
+    </div>
+</div>
 
 @if (!Model.Subs.Any())
 {
-    <h3>No se encontraron subtítulos</h3>
+    <h2 class="no-subs-found">No se encontraron subtítulos</h2>
 }
 else
 {
@@ -94,12 +120,11 @@ else
     </ul>
 }
 
-
 @section scripts {
     <script type="text/javascript">
         $('#searchTermSearchBox').val('@Model.SearchTerm');
 
-        $('.btn-show-all-comments').click(function () {
+        $('.btn-show-all-comments').click(function() {
             var $btn = $(this);
 
             var subId = $btn.attr('data-sub-id');
@@ -116,8 +141,24 @@ else
 
             $btn.toggleClass('should-show');
         });
-        
-@*        var downloadUrlTemplate = '@Url.Action("DownloadSub", new { url = "_URL_" })';
+
+        $('.card-handle').click(function() {
+            $('.card').toggleClass('card-collapsed');
+            $('.card-handle-icon').toggleClass('icon-chevron-right');
+        });
+
+        $(document).ready(function () {
+            var cardHeight = $('.card').height();
+            var $cardHandleIcon = $('.card-handle-icon');
+            var cardHandleIconHeight = $cardHandleIcon.height();
+            
+            $cardHandleIcon.css({
+                position: 'absolute',
+                top: cardHeight / 2 - cardHandleIconHeight / 2
+            });
+        });
+
+    @*        var downloadUrlTemplate = '@Url.Action("DownloadSub", new { url = "_URL_" })';
 
         $('.download-button').click(function () {
             var subdivxDownloadUrl = $(this).attr('data-download-url');

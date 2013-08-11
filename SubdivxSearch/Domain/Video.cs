@@ -7,8 +7,6 @@
 
     public class Video
     {
-        private string[] knownShows;
-
         public string Episode { get; set; }
 
         public string Season { get; set; }
@@ -25,13 +23,18 @@
         {
         }
 
-        public Video(string torrentName) : this(torrentName, new string[]{ })
+        public Video(string torrentName)
         {
-        }
+            if (string.IsNullOrEmpty(torrentName))
+            {
+                return;
+            }
 
-        public Video(string torrentName, string[] knownTvShows)
-        {
-            this.knownShows = knownTvShows;
+            if (torrentName.EndsWith("mp4", StringComparison.OrdinalIgnoreCase) || 
+                torrentName.EndsWith("avi", StringComparison.OrdinalIgnoreCase))
+            {
+                torrentName = torrentName.Remove(torrentName.Length - 4);
+            }
 
             int endingPosition;
             if (!this.ParseTvShow(torrentName, out endingPosition))
@@ -62,6 +65,26 @@
                 {
                     this.Season = string.Format("{0:D2}", int.Parse(torrentName.Substring(match.Index + 1, 1)));
                     this.Episode = torrentName.Substring(match.Index + 2, 2);
+                }
+                else
+                {
+                    // 6x9 or 6x10
+                    regex = new Regex(@"[\.,\-,\s][0-9]{1}[x,X][0-9]{1,2}[\.,\-,\s]");
+                    match = regex.Match(torrentName);
+
+                    if (match.Success)
+                    {
+                        this.Season = string.Format("{0:D2}", int.Parse(torrentName.Substring(match.Index + 1, 1)));
+
+                        int auxNumber;
+                        var aux = torrentName.Substring(match.Index + 3, 2);
+                        if (!int.TryParse(aux, out auxNumber))
+                        {
+                            auxNumber = int.Parse(torrentName.Substring(match.Index + 3, 1));
+                        }
+
+                        this.Episode = string.Format("{0:D2}", auxNumber);
+                    }
                 }
             }
 
@@ -164,8 +187,23 @@
             }
             else if (this.Year == 0 && consecutiveDigits != 4)
             {
-                this.Title = torrentName;
-                endingPosition = torrentName.Length;
+                var titleAssigned = false;
+                for (var i = 0; i < torrentName.Length; i++)
+                {
+                    if (!char.IsLetterOrDigit(torrentName[i]) && torrentName[i] != ' ')
+                    {
+                        this.Title = torrentName.Substring(0, i).Trim();
+                        endingPosition = i;
+                        titleAssigned = true;
+                        break;
+                    }
+                }
+
+                if (!titleAssigned)
+                {
+                    this.Title = torrentName;
+                    endingPosition = torrentName.Length;
+                }
             }
 
             Debug.WriteLine("Title: {0}", this.Title);
@@ -182,12 +220,15 @@
                 {
                     for (var j = torrentName.Length - 1; j >= startingPosition; j--)
                     {
-                        if (!char.IsLetterOrDigit(torrentName[j]))
+                        if (!char.IsLetterOrDigit(torrentName[j]) && torrentName[j] != '[' && torrentName[j] != ']')
                         {
                             break;
                         }
 
-                        releaseGroup = torrentName[j] + releaseGroup;
+                        if (torrentName[j] != '[' && torrentName[j] != ']')
+                        {
+                            releaseGroup = torrentName[j] + releaseGroup;
+                        }
                     }
                 }
             }

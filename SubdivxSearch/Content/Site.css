@@ -1,27 +1,4 @@
-﻿/*.button-style {
-    background-color: #d3dce0;
-    border: 1px solid #787878;
-    cursor: pointer;
-    font-size: 1.2em;
-    font-weight: 600;
-    padding: 7px;
-    margin-top: 8px;
-    margin-bottom: 8px;
-    width: auto;
-    text-decoration: none;
-}
-    
-a.button-style:hover {
-    text-decoration: none;
-    background-color: #d3dce0;
-}
-*/
-
-/*p {
-    margin: 0;
-}*/
-
-.site-title {
+﻿.site-title {
     font-family: "League Gothic", "Open Sans", Calibri, Candara, Arial, sans-serif;
     text-align: center;
     color: rgb(254, 102, 0);
@@ -64,5 +41,5 @@ a.seamless-link:hover {
 }
 
 body > div.container {
-    width: 1000px;
+    width: 900px;
 }

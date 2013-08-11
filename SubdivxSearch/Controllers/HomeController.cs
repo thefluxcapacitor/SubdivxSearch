@@ -13,7 +13,7 @@
     {
         public ActionResult SearchSub(string searchTerm)
         {
-            var video = new Video(searchTerm, ConfigurationManager.AppSettings["knownTvShows"].Split(new char[] { ',' }));
+            var video = new Video(searchTerm);
 
             var dummyCache = new Dictionary<string, string>();
 
@@ -47,6 +47,9 @@
             model.Title = video.Title;
             model.Year = video.Year != 0 ? video.Year.ToString(CultureInfo.InvariantCulture) : string.Empty;
             model.ReleaseGroup = video.ReleaseGroup;
+            model.IsTvShow = video.TvShow.GetValueOrDefault();
+            model.Season = video.Season;
+            model.Episode = video.Episode;
             model.SearchTerm = searchTerm;
 
             return this.View(model);

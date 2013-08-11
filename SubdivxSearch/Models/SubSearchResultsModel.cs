@@ -12,6 +12,12 @@
 
         public string ReleaseGroup { get; set; }
 
+        public bool IsTvShow { get; set; }
+
+        public string Season { get; set; }
+
+        public string Episode { get; set; }
+
         public string SearchTerm { get; set; }
 
         public IList<Sub> Subs { get; set; }

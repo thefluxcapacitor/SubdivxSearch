@@ -133,5 +133,23 @@
             Assert.AreEqual(0, video.Year);
             Assert.AreEqual(string.Empty, video.ReleaseGroup);
         }
+
+        [TestMethod]
+        public void TestVideoParseWithoutYear()
+        {
+            var video = new Video("Oblivion - DVDScr - XViD - YIFY");
+            Assert.AreEqual("Oblivion", video.Title);
+            Assert.AreEqual(0, video.Year);
+            Assert.AreEqual("YIFY", video.ReleaseGroup);
+        }
+
+        [TestMethod]
+        public void TestVideoParseReleaseGroupBetweenBrackets()
+        {
+            var video = new Video("Oblivion.2013.1080p BrRip x264 [LEGI0N]");
+            Assert.AreEqual("Oblivion", video.Title);
+            Assert.AreEqual(2013, video.Year);
+            Assert.AreEqual("LEGI0N", video.ReleaseGroup);
+        }
     }
 }

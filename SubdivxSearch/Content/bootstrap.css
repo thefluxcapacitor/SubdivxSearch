@@ -323,7 +323,7 @@ a {
 
 a:hover,
 a:focus {
-  color: #0059b3;
+  /*color: #0059b3;*/
   text-decoration: underline;
 }
 
