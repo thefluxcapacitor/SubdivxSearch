@@ -77,7 +77,7 @@
 
 .btn-show-all-comments {
     position: relative; 
-    width: 117px; 
+    width: auto; 
     top: -34px;
     font-size: 12px;
     font-weight: bold;
