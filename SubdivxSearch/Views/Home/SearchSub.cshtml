@@ -7,13 +7,13 @@
 }
 
 <div class="header-site">
-<div class="header-search-box">
-    @using (Html.BeginForm("SearchSub", "Home", FormMethod.Get))
-    {
+@using (Html.BeginForm("SearchSub", "Home", FormMethod.Get))
+{
+    <div class="header-search-box">
         <input id="searchTermSearchBox" class="form-control search-control" name="searchTerm" type="text" />
         <input id="searchSubmitSearchBox" class="btn btn-warning" type="submit" value="Buscar" />  
-    }
-</div>
+    </div>
+}
 
 <div class="header-site-title">
     <a href="@Url.Action("Index", "Home")">

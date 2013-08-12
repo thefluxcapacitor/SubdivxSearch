@@ -138,9 +138,7 @@
 .header-search-box {
     float: right;
     margin-top: 25px;
-}
-
-.header-search-box form {
+    width: 500px;
     display: table;
 }
 
@@ -150,11 +148,13 @@
 
 .header-search-box #searchTermSearchBox {
     width: 400px;
+    display: inline;
 }
 
 .header-search-box #searchSubmitSearchBox {
     margin-left: 3px;
     width: 82px;
+    display: inline;
 }
 
 .header-site {
