@@ -44,3 +44,9 @@ body > div.container {
     width: 900px;
     padding-bottom: 50px;
 }
+
+#beta-ribbon {
+    position: fixed;
+    top: 0;
+    left: 0;
+}
