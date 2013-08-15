@@ -48,8 +48,8 @@
       <HintPath>..\packages\DotNetZip.1.9.1.8\lib\net20\Ionic.Zip.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="NUnrar">
-      <HintPath>..\packages\nunrar.1.0.1\lib\net40\NUnrar.dll</HintPath>
+    <Reference Include="SharpCompress.Full">
+      <HintPath>..\libs\SharpCompress.Full.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -196,6 +196,8 @@
     <Compile Include="Domain\CommentComparer.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Helpers\StringHelper.cs" />
+    <Compile Include="Models\MultipleSubsDownloadModel.cs" />
+    <Compile Include="Models\SubDownloadModel.cs" />
     <Compile Include="Models\SubSearchResultsModel.cs" />
     <Compile Include="Domain\CookieAwareWebClient.cs">
       <SubType>Component</SubType>

@@ -1,1 +1,11 @@
-﻿<div>list of files to download</div>
+﻿@model SubdivxSearch.Models.MultipleSubsDownloadModel
+
+@{
+    ViewBag.Title = "Descargar subtítulos";
+}
+
+<h3>Descargar subtítulos</h3>
+@foreach (var sub in Model.Subs)
+{
+    <div><a href="@sub.DownloadUrl">@sub.FileName</a></div>
+}

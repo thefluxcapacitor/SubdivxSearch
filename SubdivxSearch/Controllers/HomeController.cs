@@ -11,8 +11,9 @@
 
     using Ionic.Zip;
 
-    using NUnrar.Archive;
-    using NUnrar.Common;
+    using SharpCompress.Archive;
+    using SharpCompress.Archive.Rar;
+    using SharpCompress.Common;
 
     using SubdivxSearch.Domain;
     using SubdivxSearch.Models;
@@ -103,11 +104,11 @@
                 new Sub()
                     {
                         Title = "Test movie (2011)",
-                        Description = "sub sin comments",
+                        Description = "sub sin comments - multiples subs",
                         Downloads = 2500,
                         SubUrl = "http://www.google.com",
-                        Cds = 1,
-                        DownloadUrl = "http://www.subdivx.com/bajar.php?id=340626&u=7"
+                        Cds = 2,
+                        DownloadUrl = "http://www.subdivx.com/bajar.php?id=64393&u=1"
                     });
             subs.Add(
                 new Sub()
@@ -147,7 +148,7 @@
             }
         }
 
-        public ActionResult DownloadSub(string url, string fileDownloadName)
+        public ActionResult DownloadSub(string url, string fileDownloadName, string subId)
         {
             url = Server.UrlDecode(url);
             fileDownloadName = Server.UrlDecode(fileDownloadName);
@@ -155,54 +156,119 @@
             var mgr = new SubDivXManager();
             var bytes = mgr.DownloadSub(url);
 
-            var tempFolder = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
-            var tempFile = Path.Combine(Path.Combine(Path.GetTempPath(), tempFolder), Path.GetRandomFileName());
-            Directory.CreateDirectory(tempFolder);
+            var allSubsBytes = new Dictionary<string, byte[]>();
 
-            try
+            using (var stream = new MemoryStream(bytes))
             {
-                this.ByteArrayToFile(tempFile, bytes);
+                var archive = ArchiveFactory.Open(stream, Options.KeepStreamsOpen);
 
-                if (!RarArchive.IsRarFile(tempFile))
+                if (!string.IsNullOrEmpty(subId))
                 {
-                    using (var zipFile = new ZipFile(tempFile))
-                    {
-                        zipFile.ExtractAll(tempFolder, ExtractExistingFileAction.OverwriteSilently);
-                    }
+                    this.AddMatchingSub(allSubsBytes, archive, subId, fileDownloadName);
                 }
                 else
                 {
-                    RarArchive.WriteToDirectory(tempFile, tempFolder, ExtractOptions.Overwrite);
-                }
-
-                var subFiles = new List<string>();
-                subFiles.AddRange(Directory.GetFiles(tempFolder, "*.sub", SearchOption.TopDirectoryOnly));
-                subFiles.AddRange(Directory.GetFiles(tempFolder, "*.srt", SearchOption.TopDirectoryOnly));
-
-                if (subFiles.Count == 1)
-                {
-                    var aux = subFiles.Single();
-                    var bytesToDownload = System.IO.File.ReadAllBytes(aux);
-
-                    return this.File(
-                        bytesToDownload,
-                        System.Net.Mime.MediaTypeNames.Application.Octet,
-                        Path.ChangeExtension(fileDownloadName, Path.GetExtension(aux)));
+                    this.AddAllSubs(allSubsBytes, archive);
                 }
             }
-            finally
+
+            if (!allSubsBytes.Any())
             {
-                try
-                {
-                    System.IO.File.Delete(tempFile);
-                    System.IO.Directory.Delete(tempFolder);
-                }
-                catch (Exception)
-                {
-                }
+                throw new Exception("Ocurrió un error al intentar descargar el subtítulo.");
             }
 
-            return this.View();
+            if (allSubsBytes.Count == 1)
+            {
+                return this.SingleSubActionResult(allSubsBytes.Single(), fileDownloadName);
+            }
+
+            return this.MultipleSubsActionResult(allSubsBytes, url);
+        }
+
+        private ActionResult SingleSubActionResult(KeyValuePair<string, byte[]> sub, string fileDownloadName)
+        {
+            fileDownloadName = sub.Key; //TODO: for now, just download with original file name
+            //fileDownloadName = string.IsNullOrEmpty(subId) ?
+            //    Path.ChangeExtension(fileDownloadName, Path.GetExtension(sub.Key)) :
+            //    sub.Key;
+
+            return this.File(
+                sub.Value,
+                System.Net.Mime.MediaTypeNames.Application.Octet,
+                fileDownloadName);
+        }
+
+        private ActionResult MultipleSubsActionResult(Dictionary<string, byte[]> allSubsBytes, string url)
+        {
+            var model = new MultipleSubsDownloadModel();
+            model.Subs = new List<SubDownloadModel>();
+
+            var urlHelper = new UrlHelper(this.ControllerContext.RequestContext);
+
+            foreach (var sub in allSubsBytes)
+            {
+                model.Subs.Add(new SubDownloadModel
+                {
+                    DownloadUrl = urlHelper.Action(
+                        "DownloadSub", 
+                        new 
+                        {
+                            url,
+                            fileDownloadName = sub.Key,
+                            subId = sub.Key.GetHashCode()
+                        }),
+                    FileName = sub.Key
+                });
+            }
+
+            return this.View(model);
+        }
+
+        private void AddAllSubs(Dictionary<string, byte[]> allSubsBytes, IArchive archive)
+        {
+            foreach (var entry in archive.Entries)
+            {
+                if (!entry.IsDirectory && !string.IsNullOrEmpty(entry.FilePath))
+                {
+                    var subExtension = Path.GetExtension(entry.FilePath).ToLower();
+                    var key = Path.GetFileName(entry.FilePath);
+
+                    if (subExtension == ".srt" || subExtension == ".sub")
+                    {
+                        if (allSubsBytes.Any())
+                        {
+                            // if there are more than one sub, there's no need to extract them all
+                            allSubsBytes.Add(key, new byte[0]);
+                        }
+                        else
+                        {
+                            allSubsBytes.Add(key, this.GetSubBytes(entry));
+                        }
+                    }
+                }
+            }
+        }
+
+        private void AddMatchingSub(Dictionary<string, byte[]> allSubsBytes, IArchive archive, string subId, string fileDownloadName)
+        {
+            var match = archive.Entries.FirstOrDefault(
+                e => !e.IsDirectory &&
+                    !string.IsNullOrEmpty(e.FilePath) &&
+                    Path.GetFileName(e.FilePath).GetHashCode() == int.Parse(subId));
+
+            if (match != null)
+            {
+                allSubsBytes.Add(fileDownloadName, this.GetSubBytes(match));
+            }
+        }
+
+        private byte[] GetSubBytes(IArchiveEntry archiveEntry)
+        {
+            using (var subStream = new MemoryStream())
+            {
+                archiveEntry.WriteTo(subStream);
+                return subStream.ToArray();
+            }
         }
     }
 }
