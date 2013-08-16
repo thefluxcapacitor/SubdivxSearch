@@ -44,9 +44,6 @@
     <Reference Include="HtmlAgilityPack">
       <HintPath>..\packages\HtmlAgilityPack.1.4.6\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
-    <Reference Include="Ionic.Zip">
-      <HintPath>..\packages\DotNetZip.1.9.1.8\lib\net20\Ionic.Zip.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="SharpCompress.Full">
       <HintPath>..\libs\SharpCompress.Full.dll</HintPath>
@@ -194,6 +191,8 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Domain\CommentComparer.cs" />
+    <Compile Include="Domain\ISubDivXManager.cs" />
+    <Compile Include="Domain\TestingSubDivXManager.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Helpers\StringHelper.cs" />
     <Compile Include="Models\MultipleSubsDownloadModel.cs" />
@@ -284,6 +283,12 @@
     <Content Include="Content\fonts\fontawesome-webfont.eot" />
     <Content Include="Content\fonts\fontawesome-webfont.ttf" />
     <Content Include="Content\fonts\fontawesome-webfont.woff" />
+    <Content Include="App_Data\singlesub.rar">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\multisubs.rar">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Images\beta-ribbon.gif" />
     <Content Include="Images\card-background.png" />
@@ -321,9 +326,7 @@
     <Content Include="Views\Home\SearchSub.cshtml" />
     <Content Include="Views\Home\DownloadSub.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>

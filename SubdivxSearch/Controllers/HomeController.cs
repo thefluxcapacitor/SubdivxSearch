@@ -2,17 +2,12 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Configuration;
     using System.Globalization;
     using System.IO;
     using System.Linq;
-    using System.Web;
     using System.Web.Mvc;
 
-    using Ionic.Zip;
-
     using SharpCompress.Archive;
-    using SharpCompress.Archive.Rar;
     using SharpCompress.Common;
 
     using SubdivxSearch.Domain;
@@ -20,23 +15,20 @@
 
     public class HomeController : Controller
     {
+        private readonly ISubDivXManager subDivXManager;
+
+        public HomeController()
+        {
+            this.subDivXManager = new TestingSubDivXManager();
+        }
+
         public ActionResult SearchSub(string searchTerm)
         {
             var video = new Video(searchTerm);
 
             var dummyCache = new Dictionary<string, string>();
 
-            IList<Sub> subs;
-            if (video.Title == "test movie" && video.Year == 2011)
-            {
-                subs = GetSampleSubs();
-            }
-            else
-            {
-                var subDivXManager = new SubDivXManager();
-                subs = subDivXManager.GetCandidateSubs(video, true, dummyCache);
-            }
-
+            var subs = this.subDivXManager.GetCandidateSubs(video, true, dummyCache);
             subs = subs.OrderByDescending(sub => sub.Downloads).ToList();
 
             if (!string.IsNullOrEmpty(video.ReleaseGroup))
@@ -64,88 +56,9 @@
             return this.View(model);
         }
 
-        private static IList<Sub> GetSampleSubs()
-        {
-            IList<Sub> subs;
-            subs = new List<Sub>();
-            subs.Add(
-                new Sub()
-                    {
-                        Title = "Test movie (2011)",
-                        Description = "Son los de ArgenTeam para Bruno.DVDRip.XviD-DiXi todo el crédito pra ellos",
-                        Downloads = 1500,
-                        SubUrl = "http://www.google.com",
-                        DownloadUrl = "http://www.subdivx.com/bajar.php?id=340626&u=7",
-                        Cds = 2,
-                        Comments =
-                            Sub.ParseComments(
-                                "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />" + "<link rel=\"stylesheet\" type=\"text/css\" href=\"estilo_33.css\"><div id=\"pop_upcoment\">"
-                                + "Funcionan al 100% para la version de YIFY en 1080p! gracias! <div id=\"pop_upcoment_der\"><a class=\"link1\" href=\"http://www.subdivx.com/X9X1567413\" target=\"new\">fkmetal333</a></div>" + "</div>"
-                                + "<div id=\"pop_upcoment\">" + "Gracias! <div id=\"pop_upcoment_der\"><a class=\"link1\" href=\"http://www.subdivx.com/X9X647759\" target=\"new\">chamil</a></div>" + "</div>" + "<div id=\"pop_upcoment\">"
-                                + "Excelente...Gracias <div id=\"pop_upcoment_der\"><a class=\"link1\" href=\"http://www.subdivx.com/X9X470163\" target=\"new\">XtreMaster</a></div>" + "</div>")
-                    });
-            subs.Add(
-                new Sub()
-                    {
-                        Title = "Test movie (2011)",
-                        Description = "Son para DVDRip-MAXSPEED basados en los de argenteam para la versión Bruno.720p.BluRay.x264-REFiNED. Creo que son los mejores para existentes para esta versión",
-                        Downloads = 2500,
-                        SubUrl = "http://www.google.com",
-                        Cds = 1,
-                        DownloadUrl = "http://www.subdivx.com/bajar.php?id=340626&u=7",
-                        Comments =
-                            Sub.ParseComments(
-                                "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />" + "<link rel=\"stylesheet\" type=\"text/css\" href=\"estilo_33.css\"><div id=\"pop_upcoment\">"
-                                + "Funcionan al 100% para la version de YIFY en 1080p! gracias! <div id=\"pop_upcoment_der\"><a class=\"link1\" href=\"http://www.subdivx.com/X9X1567413\" target=\"new\">fkmetal333</a></div>" + "</div>"
-                                + "<div id=\"pop_upcoment\">" + "Gracias! DIXI<div id=\"pop_upcoment_der\"><a class=\"link1\" href=\"http://www.subdivx.com/X9X647759\" target=\"new\">chamil</a></div>" + "</div>" + "<div id=\"pop_upcoment\">"
-                                + "Excelente...Gracias YIFY<div id=\"pop_upcoment_der\"><a class=\"link1\" href=\"http://www.subdivx.com/X9X470163\" target=\"new\">XtreMaster</a></div>" + "</div>")
-                    });
-            subs.Add(
-                new Sub()
-                    {
-                        Title = "Test movie (2011)",
-                        Description = "sub sin comments - multiples subs",
-                        Downloads = 2500,
-                        SubUrl = "http://www.google.com",
-                        Cds = 2,
-                        DownloadUrl = "http://www.subdivx.com/bajar.php?id=64393&u=1"
-                    });
-            subs.Add(
-                new Sub()
-                    {
-                        Title = "Test movie (2011)",
-                        Description = "Los de <b>aRGENTeam</b> para la versión <b>Bruno.720p.BluRay.x264-REFiNED</b>. Excelentes como siempre.",
-                        Downloads = 500,
-                        DownloadUrl = "http://www.subdivx.com/bajar.php?id=340626&u=7",
-                        SubUrl = "http://www.google.com",
-                        Cds = 1,
-                        Comments =
-                            Sub.ParseComments(
-                                "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />" + "<link rel=\"stylesheet\" type=\"text/css\" href=\"estilo_33.css\"><div id=\"pop_upcoment\">"
-                                + "Funcionan al 100% para la version de DIXI en 1080p! gracias! <div id=\"pop_upcoment_der\"><a class=\"link1\" href=\"http://www.subdivx.com/X9X1567413\" target=\"new\">fkmetal333</a></div>" + "</div>"
-                                + "<div id=\"pop_upcoment\">" + "Gracias! <div id=\"pop_upcoment_der\"><a class=\"link1\" href=\"http://www.subdivx.com/X9X647759\" target=\"new\">chamil</a></div>" + "</div>" + "<div id=\"pop_upcoment\">"
-                                + "Excelente...Gracias <div id=\"pop_upcoment_der\"><a class=\"link1\" href=\"http://www.subdivx.com/X9X470163\" target=\"new\">XtreMaster</a></div>" + "</div>")
-                    });
-            return subs;
-        }
-
         public ActionResult Index()
         {
             return this.View();
-        }
-
-        private void ByteArrayToFile(string fileName, byte[] bytes)
-        {
-            // Open file for reading
-            using (var stream = new FileStream(fileName, FileMode.Create, FileAccess.Write))
-            {
-                // Writes a block of bytes to this stream using data from
-                // a byte array.
-                stream.Write(bytes, 0, bytes.Length);
-
-                // close file stream
-                stream.Close();
-            }
         }
 
         public ActionResult DownloadSub(string url, string fileDownloadName, string subId)
@@ -153,8 +66,7 @@
             url = Server.UrlDecode(url);
             fileDownloadName = Server.UrlDecode(fileDownloadName);
             
-            var mgr = new SubDivXManager();
-            var bytes = mgr.DownloadSub(url);
+            var bytes = this.subDivXManager.DownloadSub(url);
 
             var allSubsBytes = new Dictionary<string, byte[]>();
 

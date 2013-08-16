@@ -15,7 +15,7 @@
 
     using SubsDownloader;
 
-    public class SubDivXManager
+    public class SubDivXManager : ISubDivXManager
     {
         private CookieContainer loginCookies = new CookieContainer();
 

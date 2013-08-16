@@ -226,10 +226,14 @@ p.sub-text {
     right: -167px;
 }
 
-.card-item-label {
+.card-item-label, .card-title {
     font-size: 12px;
     font-weight: bold;
     margin-bottom: 0px;
+}
+
+.card-title + hr {
+    margin: 7px 0 7px 0;
 }
 
 .card-item-value {

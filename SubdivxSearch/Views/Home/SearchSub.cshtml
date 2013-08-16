@@ -32,27 +32,29 @@
     </div>
     
     <div class="card-contents">
+        <div class="card-title">Criterio de búsqueda</div><hr/>
+
         @if (Model.IsTvShow)
         {
             <div class="card-item-label">Título</div>
-            <div class="card-item-value">@StringHelper.GetDefault(Model.Title)</div>
+            <div class="card-item-value">@StringHelper.GetDefault(Model.Title, "No especificado")</div>
         
             <div class="card-item-label">Temp. / Episodio</div> 
-            <div class="card-item-value">@StringHelper.GetDefault(Model.Season) / @StringHelper.GetDefault(Model.Episode)</div>
+            <div class="card-item-value">@StringHelper.GetDefault(Model.Season, "No especificado") / @StringHelper.GetDefault(Model.Episode, "No especificado")</div>
                 
             <div class="card-item-label">Ripeado por</div>
-            <div class="card-item-value">@StringHelper.GetDefault(Model.ReleaseGroup)</div>
+            <div class="card-item-value">@StringHelper.GetDefault(Model.ReleaseGroup, "No especificado")</div>
         }
         else
         {
             <div class="card-item-label">Título</div>
-            <div class="card-item-value">@StringHelper.GetDefault(Model.Title)</div>
+            <div class="card-item-value">@StringHelper.GetDefault(Model.Title, "No especificado")</div>
         
             <div class="card-item-label">Año</div> 
-            <div class="card-item-value">@StringHelper.GetDefault(Model.Year)</div>
+            <div class="card-item-value">@StringHelper.GetDefault(Model.Year, "No especificado")</div>
         
             <div class="card-item-label">Ripeado por</div>
-            <div class="card-item-value">@StringHelper.GetDefault(Model.ReleaseGroup)</div>
+            <div class="card-item-value">@StringHelper.GetDefault(Model.ReleaseGroup, "No especificado")</div>
         }
     </div>
 </div>
