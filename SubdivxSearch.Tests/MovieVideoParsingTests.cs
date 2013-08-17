@@ -106,6 +106,24 @@
             Assert.AreEqual(1985, video.Year);
             Assert.AreEqual(string.Empty, video.ReleaseGroup);
         }
+        
+        [TestMethod]
+        public void TestVideoParseOnlyTitleWithDotsAndYear()
+        {
+            var video = new Video("Back.to.the.future.1985");
+            Assert.AreEqual("Back to the future", video.Title);
+            Assert.AreEqual(1985, video.Year);
+            Assert.AreEqual(string.Empty, video.ReleaseGroup);
+        }
+
+        [TestMethod]
+        public void TestVideoParseOnlyTitleWithDots()
+        {
+            var video = new Video("Back.to.the.future");
+            Assert.AreEqual("Back", video.Title); // <-- only title with non spaces between words is not supported
+            Assert.AreEqual(0, video.Year);
+            Assert.AreEqual("future", video.ReleaseGroup);
+        }
 
         [TestMethod]
         public void TestVideoParseReleaseGroupWithDigit()

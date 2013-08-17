@@ -25,6 +25,11 @@
 
         public Video(string torrentName)
         {
+            if (string.IsNullOrEmpty(torrentName) || string.IsNullOrEmpty(torrentName))
+            {
+                return;
+            }
+
             torrentName = torrentName.Trim();
 
             if (string.IsNullOrEmpty(torrentName))
@@ -35,7 +40,7 @@
             if (torrentName.EndsWith("mp4", StringComparison.OrdinalIgnoreCase) || 
                 torrentName.EndsWith("avi", StringComparison.OrdinalIgnoreCase))
             {
-                torrentName = torrentName.Remove(torrentName.Length - 4);
+                torrentName = torrentName.Remove(torrentName.Length - 3).Trim();
             }
 
             int endingPosition;
@@ -60,7 +65,7 @@
             else
             {
                 // This is the case of big bang theory and others (601 = season 6 episode 01)
-                regex = new Regex(@"[\.,\-,\s][0-9]{3}[\.,\-,\s]");
+                regex = new Regex(@"[\.,\-,\s][0-9]{3}($|[\.,\-,\s])");
                 match = regex.Match(torrentName);
 
                 if (match.Success)
@@ -71,7 +76,7 @@
                 else
                 {
                     // 6x9 or 6x10
-                    regex = new Regex(@"[\.,\-,\s][0-9]{1}[x,X][0-9]{1,2}[\.,\-,\s]");
+                    regex = new Regex(@"[\.,\-,\s][0-9]{1}[x,X][0-9]{1,2}($|[\.,\-,\s])");
                     match = regex.Match(torrentName);
 
                     if (match.Success)
@@ -242,7 +247,7 @@
 
         public string GetSearchString()
         {
-            if (this.TvShow.Value)
+            if (this.TvShow.HasValue && this.TvShow.Value)
             {
                 return string.Format("{0} S{1}E{2}", this.Title, this.Season, this.Episode);
             }

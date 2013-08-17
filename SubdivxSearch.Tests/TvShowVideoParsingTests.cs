@@ -41,6 +41,17 @@
         }
 
         [TestMethod]
+        public void TestVideoParseCase1_4()
+        {
+            var video = new Video("Game.of.thrones.S01E09");
+            Assert.AreEqual("Game of thrones", video.Title);
+            Assert.AreEqual(true, video.TvShow);
+            Assert.AreEqual("01", video.Season);
+            Assert.AreEqual("09", video.Episode);
+            Assert.AreEqual(string.Empty, video.ReleaseGroup);
+        }
+
+        [TestMethod]
         public void TestVideoParseCase2_1()
         {
             var video = new Video("Game of thrones 109 YIFY");
@@ -82,6 +93,17 @@
             Assert.AreEqual("01", video.Season);
             Assert.AreEqual("10", video.Episode);
             Assert.AreEqual("YIFY", video.ReleaseGroup);
+        }
+
+        [TestMethod]
+        public void TestVideoParseCase2_5()
+        {
+            var video = new Video("Game of thrones.110");
+            Assert.AreEqual("Game of thrones", video.Title);
+            Assert.AreEqual(true, video.TvShow);
+            Assert.AreEqual("01", video.Season);
+            Assert.AreEqual("10", video.Episode);
+            Assert.AreEqual(string.Empty, video.ReleaseGroup);
         }        
         
         [TestMethod]
@@ -99,6 +121,40 @@
         public void TestVideoParseCase3_2()
         {
             var video = new Video("Game of thrones.1x10.YIFY");
+            Assert.AreEqual("Game of thrones", video.Title);
+            Assert.AreEqual(true, video.TvShow);
+            Assert.AreEqual("01", video.Season);
+            Assert.AreEqual("10", video.Episode);
+            Assert.AreEqual("YIFY", video.ReleaseGroup);
+        }
+        
+        [TestMethod]
+        public void TestVideoParseCase3_3()
+        {
+            var video = new Video("Game of thrones 1x10");
+            Assert.AreEqual("Game of thrones", video.Title);
+            Assert.AreEqual(true, video.TvShow);
+            Assert.AreEqual("01", video.Season);
+            Assert.AreEqual("10", video.Episode);
+            Assert.AreEqual(string.Empty, video.ReleaseGroup);
+        }
+
+
+        [TestMethod]
+        public void TestVideoParseCase3_5()
+        {
+            var video = new Video("Game of thrones.1x10");
+            Assert.AreEqual("Game of thrones", video.Title);
+            Assert.AreEqual(true, video.TvShow);
+            Assert.AreEqual("01", video.Season);
+            Assert.AreEqual("10", video.Episode);
+            Assert.AreEqual(string.Empty, video.ReleaseGroup);
+        }
+        
+        [TestMethod]
+        public void TestVideoParseCase3_4()
+        {
+            var video = new Video("Game of thrones 1x10 YIFY");
             Assert.AreEqual("Game of thrones", video.Title);
             Assert.AreEqual(true, video.TvShow);
             Assert.AreEqual("01", video.Season);

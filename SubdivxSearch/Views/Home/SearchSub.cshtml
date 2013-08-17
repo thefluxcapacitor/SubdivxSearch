@@ -10,7 +10,7 @@
 @using (Html.BeginForm("SearchSub", "Home", FormMethod.Get))
 {
     <div class="header-search-box">
-        <input id="searchTermSearchBox" class="form-control search-control" name="searchTerm" type="text" />
+        <input id="searchTermSearchBox" class="form-control search-control" name="searchTerm" type="text" value="@Model.SearchTerm" />
         <input id="searchSubmitSearchBox" class="btn btn-warning" type="submit" value="Buscar" />  
     </div>
 }
@@ -128,7 +128,7 @@ else
 
 @section scripts {
     <script type="text/javascript">
-        $('#searchTermSearchBox').val('@Model.SearchTerm');
+        //$('#searchTermSearchBox').val('@Model.SearchTerm');
 
         $('.btn-show-all-comments').click(function() {
             var $btn = $(this);
