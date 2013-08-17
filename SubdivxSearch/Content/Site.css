@@ -50,3 +50,32 @@ body > div.container {
     top: 0;
     left: 0;
 }
+
+input[type=radio] {
+    display:none; 
+}
+
+    input[type=radio] + label {
+        cursor: pointer;
+        display: inline-table;
+        vertical-align: bottom;
+        border-color: #ddd;
+        font-size: 13px;
+        font-weight: normal;
+        text-align: center;
+        height: 30px;
+        margin-right: -1px;
+        border: 1px solid #ddd;
+    }
+
+        input[type=radio] + label > span.radio-text {
+            padding: 3px;
+            vertical-align: middle;
+            display: table-cell;
+            width: 100%;
+        }
+
+input[type=radio]:checked + label { 
+    background-color: #e7e7e7;
+    color: black;
+}

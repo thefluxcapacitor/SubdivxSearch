@@ -241,3 +241,14 @@ p.sub-text {
     margin-top: 0;
     margin-bottom: 5px;
 }
+
+#btn-show-all-subs-comments {
+    font-size: 27px;
+    cursor: pointer;
+    float: right;
+    margin-right: 10px;
+}
+
+#CDCount {
+    float: right;
+}

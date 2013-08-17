@@ -26,6 +26,26 @@
 
 <div class="clearfloat"></div>
 
+<div>
+    <div id="CDCount">
+        <input id="CDCount-0" name="CDCount" type="radio" value="0">
+        <label for="CDCount-0">
+            <span class="radio-text">1 CD</span>
+        </label>
+        <input id="CDCount-1" name="CDCount" type="radio" value="1">
+        <label for="CDCount-1">
+            <span class="radio-text">2 CD</span>
+        </label>
+        <input id="CDCount-2" name="CDCount" type="radio" value="2" checked="checked">
+        <label for="CDCount-2">
+            <span class="radio-text">Todos</span>
+        </label>
+    </div>
+    <div id="btn-show-all-subs-comments" class="icon-comments" title="Ver todos"></div>
+</div>
+
+<div class="clearfloat"></div>
+
 <div class="card">
     <div class="card-handle">
         <div class="card-handle-icon icon-chevron-right icon-chevron-left"></div>
@@ -68,7 +88,7 @@ else
     <ul class="subs-list">
         @foreach (var sub in Model.Subs)
         {
-            <li>
+            <li data-cd-count="@sub.Cds">
                 <div class="sub-section">
                     <div class="sub-section-left-column">
                         <a class="icon-download-alt sub-download-button" href="@Url.Action("DownloadSub", 
@@ -128,8 +148,6 @@ else
 
 @section scripts {
     <script type="text/javascript">
-        //$('#searchTermSearchBox').val('@Model.SearchTerm');
-
         $('.btn-show-all-comments').click(function() {
             var $btn = $(this);
 
@@ -148,23 +166,56 @@ else
             $btn.toggleClass('should-show');
         });
 
+        $('#btn-show-all-subs-comments').click(function() {
+            var $this = $(this);
+
+            if ($this.hasClass('icon-comments')) {
+                $this.attr('title', 'Ver relevantes');
+                $('.btn-show-all-comments.should-show').click();
+            } else {
+                $this.attr('title', 'Ver todos');
+                $('.btn-show-all-comments:not(.should-show)').click();
+            }
+
+            $this.toggleClass('icon-comments');
+            $this.toggleClass('icon-comments-alt');
+        });
+
         $('.card-handle').click(function() {
             $('.card').toggleClass('card-collapsed');
             $('.card-handle-icon').toggleClass('icon-chevron-right');
         });
 
-        $(document).ready(function () {
+        $('#CDCount input:radio').click(function() {
+            var selId = parseInt($("#CDCount input[name=CDCount]:checked").attr('id').slice(-1));
+            if (selId == 0 || selId == 1) {
+                $('.subs-list > li').each(function () {
+                    var $this = $(this);
+                    if ($this.attr('data-cd-count') == selId + 1) {
+                        $this.show(200);
+                    } else {
+                        $this.hide(200);
+                    }
+                });
+            } else if (selId == 2) {
+                $('.subs-list > li').each(function () {
+                    $(this).show(200);
+                });
+            }
+        });
+
+        $(document).ready(function() {
             var cardHeight = $('.card').height();
             var $cardHandleIcon = $('.card-handle-icon');
             var cardHandleIconHeight = $cardHandleIcon.height();
-            
+
             $cardHandleIcon.css({
                 position: 'absolute',
                 top: cardHeight / 2 - cardHandleIconHeight / 2
             });
         });
 
-    @*        var downloadUrlTemplate = '@Url.Action("DownloadSub", new { url = "_URL_" })';
+        @*        var downloadUrlTemplate = '@Url.Action("DownloadSub", new { url = "_URL_" })';
 
         $('.download-button').click(function () {
             var subdivxDownloadUrl = $(this).attr('data-download-url');
