@@ -38,3 +38,26 @@
     padding-right: 10px;
     padding-top: 2px;
 }
+
+#search-help-dialog {
+    background-color: white; 
+    top: 20%;
+    overflow-y: hidden;
+    border: none;
+    height: auto;
+    bottom: auto;
+}
+
+#search-help-dialog-close-btn {
+    margin-bottom: 20px;
+    padding: 5px;
+    width: 95px;
+}
+
+#search-help-dialog-body {
+    padding: 30px;
+}
+
+#search-help-dialog-footer {
+    text-align: center;
+}

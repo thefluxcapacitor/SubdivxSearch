@@ -15,18 +15,32 @@
 
 <div id="info-section-homepage">
     <p class="sub-text">Búsqueda extendida sobre descripción y comentarios de subtítulos en <a href="http://subdivx.com/">Subdivx.com</a></p>
-    <a class="sub-text" href="">Cómo buscar?</a>
-        @*Ejemplos:<br/>
-        Inception.2010.RERiP.DVDRiP.XviD-ARROW<br/>
-        Donnie.Darko.2001.LIMITED.DVDRip.DivX-ViTE*@
+    <a href="#search-help-dialog" data-toggle="modal" id="show-search-help-dialog" class="sub-text">¿Cómo buscar?</a>
 </div>
 
+@Html.Partial("_SearchHelp")
+
 @section footer {
-    <div id="footer">© JR</div>
+    <div id="footer">© JR / <img src="/Images/twitter.png" /> @@FLX_CAP</div>
 }
 
 @section scripts {
     <script type="text/javascript">
+
+        //$('#show-search-help-dialog').click(function() {
+        //    $('#search-help-dialog').dialog({
+        //        buttons: [
+        //          {
+        //              modal: true,
+        //              text: "OK",
+        //              click: function () {
+        //                  $(this).dialog("close");
+        //              }
+        //          }
+        //        ]
+        //    });
+        //});
+        
         $(document).ready(function () {
 
             $(window).resize(function () {

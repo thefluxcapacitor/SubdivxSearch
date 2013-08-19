@@ -82,6 +82,13 @@
 @if (!Model.Subs.Any())
 {
     <h2 class="no-subs-found">No se encontraron subtítulos</h2>
+
+    <div>
+        <a href="#search-help-dialog" data-toggle="modal" id="show-search-help-dialog" class="sub-text">¿Cómo buscar?</a>
+    </div>
+
+    @Html.Partial("_SearchHelp")
+    
 }
 else
 {
