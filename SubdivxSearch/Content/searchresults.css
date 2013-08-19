@@ -196,7 +196,7 @@
     top: 5px;
     background-color: #f5f5f5;
     background-repeat: no-repeat;
-    width: 180px;
+    width: 185px;
     right: -1px;
     -moz-transition: right 0.3s ease;
     -o-transition: right 0.3s ease;
@@ -224,7 +224,7 @@
 }
 
 .card-collapsed {
-    right: -167px;
+    right: -172px;
 }
 
 .card-item-label, .card-title {
@@ -233,7 +233,7 @@
     margin-bottom: 0px;
 }
 
-.card-title + hr {
+.card hr {
     margin: 7px 0 7px 0;
 }
 
@@ -244,12 +244,14 @@
 }
 
 #btn-show-all-subs-comments {
+    /*display: inline;*/
     font-size: 27px;
     cursor: pointer;
-    float: right;
-    margin-right: 10px;
+    float: left;
+    margin-left: 10px;
 }
 
 #CDCount {
-    float: right;
+    /*display: inline;*/
+    float: left;
 }

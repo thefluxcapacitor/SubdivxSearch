@@ -26,7 +26,7 @@
 
 <div class="clearfloat"></div>
 
-<div>
+@*<div>
     <div id="CDCount">
         <input id="CDCount-0" name="CDCount" type="radio" value="0">
         <label for="CDCount-0">
@@ -44,7 +44,7 @@
     <div id="btn-show-all-subs-comments" class="icon-comments" title="Ver todos"></div>
 </div>
 
-<div class="clearfloat"></div>
+<div class="clearfloat"></div>*@
 
 <div class="card">
     <div class="card-handle">
@@ -76,6 +76,28 @@
             <div class="card-item-label">Ripeado por</div>
             <div class="card-item-value">@StringHelper.GetDefault(Model.ReleaseGroup, "No especificado")</div>
         }
+        
+        <hr/>
+        <div>
+            <div id="CDCount">
+                <input id="CDCount-0" name="CDCount" type="radio" value="0">
+                <label for="CDCount-0">
+                    <span class="radio-text">1 CD</span>
+                </label>
+                <input id="CDCount-1" name="CDCount" type="radio" value="1">
+                <label for="CDCount-1">
+                    <span class="radio-text">2 CD</span>
+                </label>
+                <input id="CDCount-2" name="CDCount" type="radio" value="2" checked="checked">
+                <label for="CDCount-2">
+                    <span class="radio-text">Todos</span>
+                </label>
+            </div>
+            <div id="btn-show-all-subs-comments" class="icon-comments" title="Ver todos"></div>
+        </div>
+
+        <div class="clearfloat"></div>
+
     </div>
 </div>
 
