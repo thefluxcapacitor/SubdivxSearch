@@ -7,6 +7,13 @@
         <meta name="viewport" content="width=device-width" />
         <meta name="description" content="Buscador de subtítulos en español. Este buscador realiza búsquedas extendidas sobre la descripción y los comentarios de subtítulos alojados en Subdivx.com" />
 
+        <meta property="og:image" content="/images/share-logo.png" />
+        <meta property="og:title" content="SubSearch - Búsqueda extendida de subtítulos en español" />
+        <meta property="og:type" content="Búsqueda de subtítulos" />
+        <meta property="og:url" content="@(this.Request.Url == null ? "http://subsearch.apphb.com" : this.Request.Url.Host)" />
+        <meta property="og:description" content="Búsqueda extendida de subtítulos en español" />
+        <meta property="og:site_name" content="SubSearch" />
+
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
         @Styles.Render("~/Content/css")
 @*        @Styles.Render("~/Content/themes/base/css")*@
@@ -25,6 +32,9 @@
           })();
 
         </script>
+        
+        <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+        <script type="text/javascript">stLight.options({ publisher: "ur-2ea9f3bb-7204-41a2-411c-e8b1576d70f", doNotHash: false, doNotCopy: false, hashAddressBar: false });</script>
 
     </head>
     <body>
@@ -38,5 +48,23 @@
         @Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/bootstrap")
         @RenderSection("scripts", required: false)
+        
+        <div style="position: fixed; left: 5px;top: 200px;">
+            <div class='st_facebook_large' displayText='Facebook'></div>
+            <div class='st_twitter_large' displayText='Tweet'></div>
+            <div class='st_googleplus_large' displayText='Google +'></div>
+            <div class='st_delicious_large' displayText='Delicious'></div>
+        </div>
+
+@*        <!-- AddThis Button BEGIN -->
+        <div class="addthis_toolbox addthis_floating_style addthis_32x32_style" style="left:5px;top:200px;">
+        <a class="addthis_button_facebook"></a>
+        <a class="addthis_button_twitter"></a>
+        <a class="addthis_button_google_plusone_share"></a>
+        <a class="addthis_button_delicious"></a>
+        </div>
+        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-52163ce3444078cd"></script>
+        <!-- AddThis Button END -->*@
+
     </body>
 </html>

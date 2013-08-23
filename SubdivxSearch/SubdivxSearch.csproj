@@ -294,6 +294,7 @@
     <Content Include="Images\card-background.png" />
     <Content Include="Images\logo.png" />
     <Content Include="Images\magnifier.png" />
+    <Content Include="Images\share-logo.png" />
     <Content Include="Images\twitter.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
