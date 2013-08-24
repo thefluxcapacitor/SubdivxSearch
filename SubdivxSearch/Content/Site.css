@@ -88,3 +88,17 @@ p.sub-text {
 a:focus {
     outline: none;
 }
+
+.sharing-bar {
+    position: fixed;
+    left: 5px;
+    top: 200px;
+}
+
+.sharing-bar img:hover {
+    opacity: .75;
+}
+
+.sharing-bar div {
+    margin-bottom: 5px;
+}

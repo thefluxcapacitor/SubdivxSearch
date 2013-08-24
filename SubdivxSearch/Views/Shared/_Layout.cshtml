@@ -1,5 +1,9 @@
 ﻿<!DOCTYPE html>
 <html lang="en" xmlns:og="http://ogp.me/ns#">
+    @{
+        var siteUrl = (this.Request.Url == null ? "http://subsearch.apphb.com" : this.Request.Url.Host);
+    }
+
     <head>
         <meta charset="utf-8" />
         <title>@ViewBag.Title - SubSearch</title>
@@ -10,9 +14,8 @@
         <meta property="og:image" content="/images/share-logo.png" />
         <meta property="og:title" content="SubSearch" />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="http://subsearch-staging.apphb.com" />
-        <meta property="og:url" content="@(this.Request.Url == null ? "http://subsearch.apphb.com" : this.Request.Url.Host)" />
-        <meta property="og:description" content="El mejor buscador de subtítulos en español basado en Subdivx.com" />
+        <meta property="og:url" content="@siteUrl" />
+        <meta property="og:description" content="La mejor forma de buscar subtítulos de Subdivx.com" />
         <meta property="og:site_name" content="SubSearch" />
 
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
@@ -34,9 +37,6 @@
 
         </script>
         
-@*        <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
-        <script type="text/javascript">stLight.options({ publisher: "ur-2ea9f3bb-7204-41a2-411c-e8b1576d70f", doNotHash: false, doNotCopy: false, hashAddressBar: false });</script>*@
-
     </head>
     <body>
         <img id="beta-ribbon" src="/Images/beta-ribbon.gif" alt="beta ribbon"/>
@@ -50,22 +50,25 @@
         @Scripts.Render("~/bundles/bootstrap")
         @RenderSection("scripts", required: false)
         
-        <div style="position: fixed; left: 5px;top: 200px;">
-            <div class='st_facebook_large' displayText='Facebook'></div>
-            <div class='st_twitter_large' displayText='Tweet'></div>
-            <div class='st_googleplus_large' displayText='Google +'></div>
-            <div class='st_delicious_large' displayText='Delicious'></div>
-        </div>
+        <div class="sharing-bar">
+            <div>
+                <a href="https://www.facebook.com/sharer/sharer.php?u=@(siteUrl + "/#facebook")" target="_blank">
+                    <img src="/images/facebook_32.png"/>
+                </a>
+            </div>
+            <div >
+              <a href="https://twitter.com/share?url=@(siteUrl + "/#twitter")" target="_blank">
+                  <img src="/images/twitter_32.png"/>
+              </a>
+            </div>
+            <div>
+                <a href="https://plus.google.com/share?url=@(siteUrl + "/#googleplus")" 
+                    onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;">
+                    <img src="/images/googleplus_32.png"/>
+                </a>
+            </div>
 
-        <!-- AddThis Button BEGIN -->
-        <div class="addthis_toolbox addthis_floating_style addthis_32x32_style" style="left:5px;top:200px;">
-        <a class="addthis_button_facebook"></a>
-        <a class="addthis_button_twitter"></a>
-        <a class="addthis_button_google_plusone_share"></a>
-        <a class="addthis_button_delicious"></a>
         </div>
-        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-52163ce3444078cd"></script>
-        <!-- AddThis Button END -->
 
     </body>
 </html>

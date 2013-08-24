@@ -292,10 +292,14 @@
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Images\beta-ribbon.gif" />
     <Content Include="Images\card-background.png" />
+    <Content Include="Images\delicious_32.png" />
+    <Content Include="Images\facebook_32.png" />
+    <Content Include="Images\googleplus_32.png" />
     <Content Include="Images\logo.png" />
     <Content Include="Images\magnifier.png" />
     <Content Include="Images\share-logo.png" />
     <Content Include="Images\twitter.png" />
+    <Content Include="Images\twitter_32.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
