@@ -86,7 +86,12 @@
 
             if (!allSubsBytes.Any())
             {
-                throw new Exception("Ocurrió un error al intentar descargar el subtítulo.");
+                // If no srt or sub found, maybe subs are compressed. Return original rar file then.
+                return this.File(
+                    bytes,
+                    System.Net.Mime.MediaTypeNames.Application.Octet,
+                    "subs.rar");
+                //throw new Exception("Ocurrió un error al intentar descargar el subtítulo.");
             }
 
             if (allSubsBytes.Count == 1)
