@@ -22,7 +22,7 @@
             this.subDivXManager = new TestingSubDivXManager();
         }
 
-        public ActionResult SearchSub(string searchTerm)
+        public ActionResult SearchSub(string searchTerm, bool feelingLucky = false)
         {
             var video = new Video(searchTerm);
 
@@ -43,17 +43,25 @@
                 }
             }
 
-            var model = new SubSearchResultsModel();
-            model.Subs = subs;
-            model.Title = video.Title;
-            model.Year = video.Year != 0 ? video.Year.ToString(CultureInfo.InvariantCulture) : string.Empty;
-            model.ReleaseGroup = video.ReleaseGroup;
-            model.IsTvShow = video.TvShow.GetValueOrDefault();
-            model.Season = video.Season;
-            model.Episode = video.Episode;
-            model.SearchTerm = searchTerm;
+            if (!feelingLucky || !subs.Any())
+            {
+                var model = new SubSearchResultsModel();
+                model.Subs = subs;
+                model.Title = video.Title;
+                model.Year = video.Year != 0 ? video.Year.ToString(CultureInfo.InvariantCulture) : string.Empty;
+                model.ReleaseGroup = video.ReleaseGroup;
+                model.IsTvShow = video.TvShow.GetValueOrDefault();
+                model.Season = video.Season;
+                model.Episode = video.Episode;
+                model.SearchTerm = searchTerm;
 
-            return this.View(model);
+                return this.View(model);
+            }
+            else
+            {
+                var sub = subs.First();
+                return this.DownloadSub(sub.DownloadUrl, searchTerm, null, true);
+            }
         }
 
         public ActionResult Index()
@@ -61,7 +69,7 @@
             return this.View();
         }
 
-        public ActionResult DownloadSub(string url, string fileDownloadName, string subId)
+        public ActionResult DownloadSub(string url, string fileDownloadName, string subId, bool feelingLucky = false)
         {
             url = Server.UrlDecode(url);
             fileDownloadName = Server.UrlDecode(fileDownloadName);
@@ -94,9 +102,9 @@
                 //throw new Exception("Ocurrió un error al intentar descargar el subtítulo.");
             }
 
-            if (allSubsBytes.Count == 1)
+            if (allSubsBytes.Count == 1 || feelingLucky)
             {
-                return this.SingleSubActionResult(allSubsBytes.Single(), fileDownloadName);
+                return this.SingleSubActionResult(allSubsBytes.First(), fileDownloadName);
             }
 
             return this.MultipleSubsActionResult(allSubsBytes, url);
@@ -104,10 +112,16 @@
 
         private ActionResult SingleSubActionResult(KeyValuePair<string, byte[]> sub, string fileDownloadName)
         {
-            fileDownloadName = sub.Key; //TODO: for now, just download with original file name
-            //fileDownloadName = string.IsNullOrEmpty(subId) ?
-            //    Path.ChangeExtension(fileDownloadName, Path.GetExtension(sub.Key)) :
-            //    sub.Key;
+            //fileDownloadName = sub.Key; //TODO: for now, just download with original file name
+
+            if (!string.IsNullOrWhiteSpace(fileDownloadName))
+            {
+                fileDownloadName = string.Format("{0}{1}", fileDownloadName, Path.GetExtension(sub.Key));
+            }
+            else
+            {
+                fileDownloadName = sub.Key; 
+            }
 
             return this.File(
                 sub.Value,

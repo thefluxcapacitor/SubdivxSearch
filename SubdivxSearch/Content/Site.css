@@ -14,6 +14,7 @@ body {
 .search-control {
     font-size: 18px;
     padding-left: 9px;
+    width: 100%;
 }
 
 .search-control:focus {
@@ -101,4 +102,9 @@ a:focus {
 
 .sharing-bar div {
     margin-bottom: 5px;
+}
+
+div.buttonsContainer {
+    margin-top: 10px;
+    text-align: center;
 }
